@@ -1,0 +1,27 @@
+# Hydra Configuration
+# Override from command line: python train.py hyperparameters.learning_rate=0.001
+
+defaults:
+  - model: simple_cnn
+  - data: cifar10
+  - hyperparameters: default
+  - _self_
+
+# Training settings
+seed: 42
+device: auto  # auto, cuda, or cpu
+num_workers: 2
+
+# Output directories
+output_dir: ./outputs
+model_save_dir: ./models
+report_dir: ./reports
+
+# Logging
+log_interval: 10  # Log every N batches
+save_best_only: true
+early_stopping_patience: 10
+
+# Experiment tracking
+experiment_name: image_classifier
+run_name: ${now:%Y-%m-%d_%H-%M-%S}

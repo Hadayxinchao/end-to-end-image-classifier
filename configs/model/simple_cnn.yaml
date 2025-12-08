@@ -1,0 +1,6 @@
+# Simple CNN Model Configuration
+
+name: simple_cnn
+num_classes: 10
+input_channels: 3
+dropout: 0.5

@@ -1,0 +1,82 @@
+# Docker ignore file - don't copy these to Docker image
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Data (can be large - mount as volume instead)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Models (mount as volume for persistence)
+models/*.pth
+models/*.pt
+models/*.h5
+!models/.gitkeep
+
+# Outputs
+outputs/
+multirun/
+.hydra/
+logs/
+*.log
+
+# Reports
+reports/*
+!reports/.gitkeep
+
+# DVC
+.dvc/
+*.dvc
+
+# CI/CD
+.github/
+
+# Documentation
+docs/
+site/
+*.md
+!README.md
+
+# Other
+*.tmp
+*.bak
+.env
+.dvcignore

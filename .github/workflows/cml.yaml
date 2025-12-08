@@ -1,0 +1,128 @@
+name: CML - Continuous Machine Learning
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  train-and-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for all branches and tags
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -e .
+
+    - name: Pull data with DVC
+      run: |
+        # If you have DVC remote configured
+        # dvc pull
+        echo "Skipping DVC pull - data will be downloaded by training script"
+
+    - name: Train model
+      run: |
+        # Train with fast config for CI
+        python src/training/train.py \
+          hyperparameters=fast \
+          hyperparameters.num_epochs=3 \
+          hyperparameters.batch_size=128 \
+          data.batch_size=128
+
+    - name: Generate metrics file
+      run: |
+        # Create metrics.txt for CML
+        if [ -f reports/classification_report.txt ]; then
+          cat reports/classification_report.txt > metrics.txt
+        else
+          echo "No classification report found" > metrics.txt
+        fi
+
+    - name: Create CML report
+      env:
+        REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Install CML
+        npm install -g @dvcorg/cml
+
+        # Start CML report
+        echo "# Model Training Report" > report.md
+        echo "" >> report.md
+        echo "## Training Configuration" >> report.md
+        echo "- Epochs: 3 (fast config for CI)" >> report.md
+        echo "- Batch Size: 128" >> report.md
+        echo "- Dataset: CIFAR-10" >> report.md
+        echo "" >> report.md
+        
+        echo "## Metrics" >> report.md
+        echo "\`\`\`" >> report.md
+        cat metrics.txt >> report.md
+        echo "\`\`\`" >> report.md
+        echo "" >> report.md
+        
+        # Add confusion matrix if exists
+        if [ -f reports/figures/confusion_matrix.png ]; then
+          echo "## Confusion Matrix" >> report.md
+          cml-publish reports/figures/confusion_matrix.png --md >> report.md
+          echo "" >> report.md
+        fi
+        
+        # Add training history if exists
+        if [ -f reports/figures/training_history.png ]; then
+          echo "## Training History" >> report.md
+          cml-publish reports/figures/training_history.png --md >> report.md
+          echo "" >> report.md
+        fi
+        
+        # Post comment to PR
+        cml comment create report.md
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: training-reports
+        path: |
+          reports/
+          models/*.pth
+        retention-days: 30
+
+  compare-models:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Add comparison comment
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '🤖 **Model Comparison**\n\nTraining job is running. Results will be posted when complete.\n\n✅ Check the [Actions tab](https://github.com/${{ github.repository }}/actions) for progress.'
+          })

@@ -1,0 +1,5 @@
+# ResNet Model Configuration
+
+name: resnet
+num_classes: 10
+input_channels: 3

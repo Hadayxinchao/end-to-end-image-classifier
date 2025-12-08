@@ -1,0 +1,7 @@
+# Fast training for testing
+
+learning_rate: 0.01
+num_epochs: 5
+batch_size: 128
+optimizer: sgd
+use_scheduler: false
