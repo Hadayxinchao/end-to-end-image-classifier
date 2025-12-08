@@ -134,6 +134,13 @@ def predict_batch(model: nn.Module, dataloader, device: str = 'cpu') -> Tuple[np
 
 if __name__ == "__main__":
     import argparse
+    import sys
+    from pathlib import Path
+    
+    # Add project root to path
+    project_root = Path(__file__).parent.parent.parent
+    sys.path.insert(0, str(project_root))
+    
     from src.models.model import get_model
     
     parser = argparse.ArgumentParser(description='Make predictions on images')

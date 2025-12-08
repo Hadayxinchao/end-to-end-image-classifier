@@ -8,7 +8,7 @@ import torch.nn.functional as F
 class SimpleCNN(nn.Module):
     """Simple CNN for image classification."""
     
-    def __init__(self, num_classes: int = 10, input_channels: int = 3, dropout: float = 0.5):
+    def __init__(self, num_classes: int = 10, input_channels: int = 3, dropout: float = 0.5, image_size: int = 32):
         """
         Initialize the CNN model.
         
@@ -16,6 +16,7 @@ class SimpleCNN(nn.Module):
             num_classes: Number of output classes
             input_channels: Number of input channels (3 for RGB, 1 for grayscale)
             dropout: Dropout probability
+            image_size: Input image size (height and width)
         """
         super(SimpleCNN, self).__init__()
         
@@ -36,8 +37,13 @@ class SimpleCNN(nn.Module):
         self.pool = nn.MaxPool2d(2, 2)
         self.dropout = nn.Dropout(dropout)
         
+        # Calculate size after conv layers
+        # After 3 pooling layers (each divides by 2): image_size / 8
+        conv_output_size = image_size // 8
+        fc_input_size = 128 * conv_output_size * conv_output_size
+        
         # Fully connected layers
-        self.fc1 = nn.Linear(128 * 4 * 4, 256)
+        self.fc1 = nn.Linear(fc_input_size, 256)
         self.fc2 = nn.Linear(256, num_classes)
         
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -167,7 +173,7 @@ class ResNet(nn.Module):
 
 
 def get_model(model_name: str = "simple_cnn", num_classes: int = 10, 
-              input_channels: int = 3, **kwargs) -> nn.Module:
+              input_channels: int = 3, image_size: int = 32, **kwargs) -> nn.Module:
     """
     Factory function to get model by name.
     
@@ -175,13 +181,15 @@ def get_model(model_name: str = "simple_cnn", num_classes: int = 10,
         model_name: Name of the model ('simple_cnn' or 'resnet')
         num_classes: Number of output classes
         input_channels: Number of input channels
+        image_size: Input image size
         **kwargs: Additional arguments for model
         
     Returns:
         PyTorch model
     """
     if model_name == "simple_cnn":
-        return SimpleCNN(num_classes=num_classes, input_channels=input_channels, **kwargs)
+        return SimpleCNN(num_classes=num_classes, input_channels=input_channels, 
+                        image_size=image_size, **kwargs)
     elif model_name == "resnet":
         return ResNet(num_classes=num_classes, input_channels=input_channels)
     else:

@@ -2,6 +2,8 @@
 
 import numpy as np
 import torch
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend for headless environments
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import (

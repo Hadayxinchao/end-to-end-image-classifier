@@ -123,10 +123,9 @@ dmypy.json
 .pyre/
 
 # DVC
-/data
-*.dvc
 .dvc/cache
 .dvc/tmp
+!.dvc
 
 # Models
 /models/*.pth

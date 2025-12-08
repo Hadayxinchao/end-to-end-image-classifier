@@ -11,6 +11,12 @@ from pathlib import Path
 from tqdm import tqdm
 import random
 import numpy as np
+import sys
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
 
 from src.data.make_dataset import load_cifar10, load_mnist
 from src.models.model import get_model
@@ -159,7 +165,7 @@ def get_scheduler(optimizer, cfg):
         raise ValueError(f"Unknown scheduler type: {scheduler_type}")
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="config")
+@hydra.main(version_base=None, config_path="../../configs", config_name="config")
 def main(cfg: DictConfig):
     """Main training function."""
     
@@ -205,6 +211,7 @@ def main(cfg: DictConfig):
         model_name=cfg.model.name,
         num_classes=cfg.data.num_classes,
         input_channels=cfg.data.input_channels,
+        image_size=cfg.data.image_size,
         dropout=cfg.hyperparameters.dropout
     )
     model = model.to(device)
