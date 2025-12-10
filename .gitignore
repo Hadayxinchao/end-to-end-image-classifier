@@ -125,6 +125,7 @@ dmypy.json
 # DVC
 .dvc/cache
 .dvc/tmp
+.dvc/config
 !.dvc
 
 # Models
