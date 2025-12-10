@@ -12,25 +12,31 @@
         <meta name="author" content="Your Name">
       
       
+        <link rel="canonical" href="https://yourusername.github.io/end-to-end-image-classifier/guide/training/">
       
+      
+        <link rel="prev" href="../../getting-started/configuration/">
+      
+      
+        <link rel="next" href="../inference/">
       
       
         
       
       
-      <link rel="icon" href="/end-to-end-image-classifier/assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Image Classifier MLOps</title>
+        <title>Training Models - Image Classifier MLOps</title>
       
     
     
-      <link rel="stylesheet" href="/end-to-end-image-classifier/assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="/end-to-end-image-classifier/assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,9 +55,9 @@
       
     
     
-      <link rel="stylesheet" href="/end-to-end-image-classifier/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/end-to-end-image-classifier/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -75,6 +81,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#training-models" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -89,7 +100,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/end-to-end-image-classifier/." title="Image Classifier MLOps" class="md-header__button md-logo" aria-label="Image Classifier MLOps" data-md-component="logo">
+    <a href="../.." title="Image Classifier MLOps" class="md-header__button md-logo" aria-label="Image Classifier MLOps" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -109,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Training Models
             
           </span>
         </div>
@@ -222,7 +233,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/end-to-end-image-classifier/." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -243,7 +254,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/end-to-end-image-classifier/getting-started/installation/" class="md-tabs__link">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
           
   
   
@@ -259,11 +270,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="/end-to-end-image-classifier/guide/training/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -283,7 +296,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/end-to-end-image-classifier/mlops/cicd/" class="md-tabs__link">
+        <a href="../../mlops/cicd/" class="md-tabs__link">
           
   
   
@@ -303,7 +316,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/end-to-end-image-classifier/api/data/" class="md-tabs__link">
+        <a href="../../api/data/" class="md-tabs__link">
           
   
   
@@ -323,7 +336,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/end-to-end-image-classifier/development/contributing/" class="md-tabs__link">
+        <a href="../../development/contributing/" class="md-tabs__link">
           
   
   
@@ -343,7 +356,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/end-to-end-image-classifier/about/overview/" class="md-tabs__link">
+        <a href="../../about/overview/" class="md-tabs__link">
           
   
   
@@ -377,7 +390,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/end-to-end-image-classifier/." title="Image Classifier MLOps" class="md-nav__button md-logo" aria-label="Image Classifier MLOps" data-md-component="logo">
+    <a href="../.." title="Image Classifier MLOps" class="md-nav__button md-logo" aria-label="Image Classifier MLOps" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -407,7 +420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -488,7 +501,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/getting-started/installation/" class="md-nav__link">
+      <a href="../../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -516,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/getting-started/quickstart/" class="md-nav__link">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
         
   
   
@@ -544,7 +557,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/getting-started/configuration/" class="md-nav__link">
+      <a href="../../getting-started/configuration/" class="md-nav__link">
         
   
   
@@ -576,28 +589,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -615,7 +631,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -630,10 +646,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/guide/training/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Models
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -649,6 +692,259 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Training
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Training">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cifar-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIFAR-10
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mnist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MNIST
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Override
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-rate-schedulers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning Rate Schedulers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning Rate Schedulers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-decay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step Decay
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cosine-annealing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cosine Annealing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reduce-on-plateau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reduce on Plateau
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Selection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simplecnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SimpleCNN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ResNet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#early-stopping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Early Stopping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#device-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Device Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Device Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-detect-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-detect (default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicit-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicit GPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU only
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring Training
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-for-better-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips for Better Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -661,7 +957,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/guide/inference/" class="md-nav__link">
+      <a href="../inference/" class="md-nav__link">
         
   
   
@@ -689,7 +985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/guide/data/" class="md-nav__link">
+      <a href="../data/" class="md-nav__link">
         
   
   
@@ -717,7 +1013,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/guide/experiments/" class="md-nav__link">
+      <a href="../experiments/" class="md-nav__link">
         
   
   
@@ -806,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/mlops/cicd/" class="md-nav__link">
+      <a href="../../mlops/cicd/" class="md-nav__link">
         
   
   
@@ -834,7 +1130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/mlops/dvc/" class="md-nav__link">
+      <a href="../../mlops/dvc/" class="md-nav__link">
         
   
   
@@ -862,7 +1158,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/mlops/model-versioning.md" class="md-nav__link">
+      <a href="../../mlops/model-versioning.md" class="md-nav__link">
         
   
   
@@ -890,7 +1186,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/mlops/docker.md" class="md-nav__link">
+      <a href="../../mlops/docker.md" class="md-nav__link">
         
   
   
@@ -979,7 +1275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/api/data/" class="md-nav__link">
+      <a href="../../api/data/" class="md-nav__link">
         
   
   
@@ -1007,7 +1303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/api/models/" class="md-nav__link">
+      <a href="../../api/models/" class="md-nav__link">
         
   
   
@@ -1035,7 +1331,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/api/training/" class="md-nav__link">
+      <a href="../../api/training/" class="md-nav__link">
         
   
   
@@ -1063,7 +1359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/api/utils/" class="md-nav__link">
+      <a href="../../api/utils/" class="md-nav__link">
         
   
   
@@ -1152,7 +1448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/development/contributing/" class="md-nav__link">
+      <a href="../../development/contributing/" class="md-nav__link">
         
   
   
@@ -1180,7 +1476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/development/testing/" class="md-nav__link">
+      <a href="../../development/testing/" class="md-nav__link">
         
   
   
@@ -1208,7 +1504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/development/code-style/" class="md-nav__link">
+      <a href="../../development/code-style/" class="md-nav__link">
         
   
   
@@ -1297,7 +1593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/about/overview/" class="md-nav__link">
+      <a href="../../about/overview/" class="md-nav__link">
         
   
   
@@ -1325,7 +1621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/end-to-end-image-classifier/about/license/" class="md-nav__link">
+      <a href="../../about/license/" class="md-nav__link">
         
   
   
@@ -1370,6 +1666,249 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Training
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Training">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cifar-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIFAR-10
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mnist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MNIST
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Override
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-rate-schedulers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning Rate Schedulers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning Rate Schedulers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-decay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step Decay
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cosine-annealing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cosine Annealing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reduce-on-plateau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reduce on Plateau
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Selection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simplecnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SimpleCNN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ResNet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#early-stopping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Early Stopping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#device-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Device Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Device Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-detect-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-detect (default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicit-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicit GPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU only
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring Training
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-for-better-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips for Better Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1382,8 +1921,116 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="training-models">Training Models<a class="headerlink" href="#training-models" title="Permanent link">&para;</a></h1>
+<p>This guide explains how to train image classification models using this project.</p>
+<h2 id="basic-training">Basic Training<a class="headerlink" href="#basic-training" title="Permanent link">&para;</a></h2>
+<h3 id="cifar-10">CIFAR-10<a class="headerlink" href="#cifar-10" title="Permanent link">&para;</a></h3>
+<p>Train on CIFAR-10 dataset with default configuration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">data</span><span class="o">=</span>cifar10
+</code></pre></div>
+<h3 id="mnist">MNIST<a class="headerlink" href="#mnist" title="Permanent link">&para;</a></h3>
+<p>Train on MNIST dataset:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">data</span><span class="o">=</span>mnist
+</code></pre></div>
+<h2 id="configuration-override">Configuration Override<a class="headerlink" href="#configuration-override" title="Permanent link">&para;</a></h2>
+<p>Override hyperparameters via command line:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Custom learning rate</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span>hyperparameters.learning_rate<span class="o">=</span><span class="m">0</span>.001
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Custom batch size</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span>hyperparameters.batch_size<span class="o">=</span><span class="m">128</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Different optimizer</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span>hyperparameters.optimizer<span class="o">=</span>adam
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Multiple overrides</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="nv">data</span><span class="o">=</span>cifar10<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span>hyperparameters.num_epochs<span class="o">=</span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span>hyperparameters.learning_rate<span class="o">=</span><span class="m">0</span>.001<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="nv">model</span><span class="o">=</span>resnet
+</code></pre></div>
+<h2 id="learning-rate-schedulers">Learning Rate Schedulers<a class="headerlink" href="#learning-rate-schedulers" title="Permanent link">&para;</a></h2>
+<h3 id="step-decay">Step Decay<a class="headerlink" href="#step-decay" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>hyperparameters.use_scheduler<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>hyperparameters.scheduler_type<span class="o">=</span>step<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>hyperparameters.step_size<span class="o">=</span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>hyperparameters.gamma<span class="o">=</span><span class="m">0</span>.1
+</code></pre></div>
+<h3 id="cosine-annealing">Cosine Annealing<a class="headerlink" href="#cosine-annealing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>hyperparameters.use_scheduler<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>hyperparameters.scheduler_type<span class="o">=</span>cosine<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>hyperparameters.min_lr<span class="o">=</span>1e-5
+</code></pre></div>
+<h3 id="reduce-on-plateau">Reduce on Plateau<a class="headerlink" href="#reduce-on-plateau" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>hyperparameters.use_scheduler<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>hyperparameters.scheduler_type<span class="o">=</span>plateau
+</code></pre></div>
+<h2 id="model-selection">Model Selection<a class="headerlink" href="#model-selection" title="Permanent link">&para;</a></h2>
+<h3 id="simplecnn">SimpleCNN<a class="headerlink" href="#simplecnn" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">model</span><span class="o">=</span>simple_cnn
+</code></pre></div>
+<h3 id="resnet">ResNet<a class="headerlink" href="#resnet" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">model</span><span class="o">=</span>resnet
+</code></pre></div>
+<h2 id="training-output">Training Output<a class="headerlink" href="#training-output" title="Permanent link">&para;</a></h2>
+<p>Training generates:
+- <strong>Best model</strong>: <code>models/simple_cnn_best.pth</code>
+- <strong>Reports</strong>: <code>reports/</code> directory with:
+  - <code>confusion_matrix.png</code> - Confusion matrix visualization
+  - <code>classification_report.txt</code> - Detailed metrics
+  - <code>training_history.png</code> - Loss and accuracy curves</p>
+<h2 id="early-stopping">Early Stopping<a class="headerlink" href="#early-stopping" title="Permanent link">&para;</a></h2>
+<p>Configure early stopping patience:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">early_stopping_patience</span><span class="o">=</span><span class="m">10</span>
+</code></pre></div>
+<h2 id="device-configuration">Device Configuration<a class="headerlink" href="#device-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="auto-detect-default">Auto-detect (default)<a class="headerlink" href="#auto-detect-default" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">device</span><span class="o">=</span>auto
+</code></pre></div>
+<h3 id="explicit-gpu">Explicit GPU<a class="headerlink" href="#explicit-gpu" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">device</span><span class="o">=</span>cuda:0
+</code></pre></div>
+<h3 id="cpu-only">CPU only<a class="headerlink" href="#cpu-only" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>python<span class="w"> </span>src/training/train.py<span class="w"> </span><span class="nv">device</span><span class="o">=</span>cpu
+</code></pre></div>
+<h2 id="monitoring-training">Monitoring Training<a class="headerlink" href="#monitoring-training" title="Permanent link">&para;</a></h2>
+<p>The training script provides real-time updates:
+- Loss and accuracy per epoch
+- Learning rate schedule
+- Best validation accuracy
+- Training history plots</p>
+<h2 id="tips-for-better-results">Tips for Better Results<a class="headerlink" href="#tips-for-better-results" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Data augmentation</strong>: Adjust in <code>src/data/make_dataset.py</code></li>
+<li><strong>Batch size</strong>: Larger batches for better GPU utilization</li>
+<li><strong>Learning rate</strong>: Start with 0.001 and tune based on results</li>
+<li><strong>Epochs</strong>: Use early stopping to avoid overfitting</li>
+<li><strong>Optimizer</strong>: Adam for adaptive learning, SGD for stable training</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1457,10 +2104,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/end-to-end-image-classifier/", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy"], "search": "/end-to-end-image-classifier/assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="/end-to-end-image-classifier/assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
