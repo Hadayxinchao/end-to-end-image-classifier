@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/about/license/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/about/license/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/about/overview/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/about/overview/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/api/data/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/api/data/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/api/models/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/api/models/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/api/training/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/api/training/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/api/utils/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/api/utils/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/development/code-style/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/development/code-style/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/development/contributing/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/development/contributing/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/development/testing/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/development/testing/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/getting-started/configuration/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/getting-started/configuration/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/getting-started/installation/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/getting-started/installation/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/getting-started/quickstart/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/getting-started/quickstart/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/guide/data/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/guide/data/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/guide/experiments/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/guide/experiments/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/guide/inference/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/guide/inference/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/guide/training/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/guide/training/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/mlops/cicd/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/mlops/cicd/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
     <url>
-         <loc>https://yourusername.github.io/end-to-end-image-classifier/mlops/dvc/</loc>
+         <loc>https://Hadayxinchao.github.io/end-to-end-image-classifier/mlops/dvc/</loc>
          <lastmod>2025-12-10</lastmod>
     </url>
 </urlset>
