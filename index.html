@@ -1130,7 +1130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mlops/model-versioning.md" class="md-nav__link">
+      <a href="mlops/model-versioning/" class="md-nav__link">
         
   
   
@@ -1158,7 +1158,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mlops/docker.md" class="md-nav__link">
+      <a href="mlops/docker/" class="md-nav__link">
         
   
   
@@ -1966,33 +1966,25 @@
 <li><strong><a href="development/contributing/">Development</a></strong>: Contributing guidelines</li>
 </ul>
 <h2 id="project-architecture">🏗️ Project Architecture<a class="headerlink" href="#project-architecture" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│                     GitHub Repository                        │
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│                                                              │
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│  │   Source     │  │    Tests     │  │   Configs    │     │
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│  │    Code      │  │   (pytest)   │  │   (Hydra)    │     │
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│  └──────────────┘  └──────────────┘  └──────────────┘     │
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│                                                              │
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│  ┌──────────────────────────────────────────────────────┐  │
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│  │           GitHub Actions (CI/CD)                      │  │
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>│  │  - Lint &amp; Test  - Train Model  - Generate Reports    │  │
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>│  └──────────────────────────────────────────────────────┘  │
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>│                                                              │
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>└─────────────────────────────────────────────────────────────┘
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>                           │
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>                           ▼
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>                  ┌─────────────────┐
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>                  │   DVC Remote    │
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>                  │  (Data Storage) │
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>                  └─────────────────┘
-<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>                           │
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>                           ▼
-<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>                  ┌─────────────────┐
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>                  │  Docker Image   │
-<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>                  │  (Deployment)   │
-<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>                  └─────────────────┘
-</code></pre></div>
+<pre class="mermaid"><code>graph TD
+    A["GitHub Repository"] --&gt; B["Source Code"]
+    A --&gt; C["Tests&lt;br/&gt;(pytest)"]
+    A --&gt; D["Configs&lt;br/&gt;(Hydra)"]
+    B --&gt; E["GitHub Actions&lt;br/&gt;(CI/CD)"]
+    C --&gt; E
+    D --&gt; E
+    E --&gt; F["Lint &amp; Test"]
+    E --&gt; G["Train Model"]
+    E --&gt; H["Generate Reports"]
+    F --&gt; I["DVC Remote&lt;br/&gt;(Data Storage)"]
+    G --&gt; I
+    H --&gt; I
+    I --&gt; J["Docker Image&lt;br/&gt;(Deployment)"]
+
+    style A fill:#4A90E2,stroke:#2E5C8A,color:#fff
+    style E fill:#7B68EE,stroke:#5A4B96,color:#fff
+    style I fill:#50C878,stroke:#3A8B56,color:#fff
+    style J fill:#FF6B6B,stroke:#C44444,color:#fff</code></pre>
 <h2 id="learning-resources">🎓 Learning Resources<a class="headerlink" href="#learning-resources" title="Permanent link">&para;</a></h2>
 <h3 id="for-beginners">For Beginners<a class="headerlink" href="#for-beginners" title="Permanent link">&para;</a></h3>
 <ol>
@@ -2004,7 +1996,7 @@
 <ol>
 <li>Understand the <a href="mlops/cicd/">CI/CD Pipeline</a></li>
 <li>Setup <a href="mlops/dvc/">Data Versioning</a></li>
-<li>Learn <a href="mlops/docker.md">Docker Deployment</a></li>
+<li>Learn <a href="mlops/docker/">Docker Deployment</a></li>
 </ol>
 <h3 id="for-contributors">For Contributors<a class="headerlink" href="#for-contributors" title="Permanent link">&para;</a></h3>
 <ol>
