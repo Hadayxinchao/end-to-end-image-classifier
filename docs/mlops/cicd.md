@@ -33,7 +33,7 @@ graph LR
 
 **Flake8** - Syntax and style checking:
 ```bash
-flake8 src tests --max-line-length=127
+flake8 src tests --max-line-length=135
 ```
 
 **Black** - Code formatting:

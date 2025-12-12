@@ -68,15 +68,26 @@ reports/*
 
 # CI/CD
 .github/
+.gitignore
 
 # Documentation
 docs/
 site/
 *.md
 !README.md
+mkdocs.yml
+
+# Development files
+requirements.txt
+requirements-dev.txt
+pytest.ini
+.flake8
+.pylintrc
+Makefile
 
 # Other
 *.tmp
 *.bak
 .env
 .dvcignore
+LICENSE

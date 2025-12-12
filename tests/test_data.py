@@ -1,16 +1,10 @@
 """Tests for data loading and preprocessing."""
 
-import sys
-from pathlib import Path
-
 import pytest
 import torch
 from torch.utils.data import DataLoader
 
 from src.data.make_dataset import get_transforms, load_cifar10, load_mnist
-
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 class TestTransforms:

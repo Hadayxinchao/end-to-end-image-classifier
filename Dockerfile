@@ -7,26 +7,26 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=1 \
+    PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Install system dependencies
+# Install system dependencies (minimal)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    git \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY requirements.txt .
+# Copy minimal requirements first for better caching
+COPY requirements-ci.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies (use CI requirements - lighter)
+RUN pip install --no-cache-dir -r requirements-ci.txt
 
-# Copy project files
-COPY . .
+# Copy only necessary source files (not entire project)
+COPY setup.py .
+COPY src/ ./src/
+COPY configs/ ./configs/
 
 # Install the package
-RUN pip install -e .
+RUN pip install --no-deps -e .
 
 # Create necessary directories
 RUN mkdir -p /app/data/raw /app/models /app/reports

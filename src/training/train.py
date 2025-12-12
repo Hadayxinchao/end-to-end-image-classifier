@@ -1,7 +1,6 @@
 """Training script with Hydra configuration management."""
 
 import random
-import sys
 from pathlib import Path
 
 import hydra
@@ -13,20 +12,16 @@ from omegaconf import DictConfig, OmegaConf
 from torch.optim.lr_scheduler import CosineAnnealingLR, ReduceLROnPlateau, StepLR
 from tqdm import tqdm
 
-from src.data.make_dataset import load_cifar10, load_mnist
-from src.models.model import get_model
-from src.models.predict import predict_batch
-from src.utils.metrics import (
+from data.make_dataset import load_cifar10, load_mnist
+from models.model import get_model
+from models.predict import predict_batch
+from utils.metrics import (
     AverageMeter,
     calculate_metrics,
     plot_confusion_matrix,
     plot_training_history,
     save_classification_report,
 )
-
-# Add project root to path
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root))
 
 
 def set_seed(seed: int):
