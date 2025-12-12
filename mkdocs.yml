@@ -1,15 +1,15 @@
 site_name: Image Classifier MLOps
 site_description: End-to-end image classification with MLOps best practices
-site_author: Your Name
-site_url: https://yourusername.github.io/end-to-end-image-classifier/
+site_author: Hoang Ha
+site_url: https://Hadayxinchao.github.io/end-to-end-image-classifier/
 
 # Repository
-repo_name: yourusername/end-to-end-image-classifier
-repo_url: https://github.com/yourusername/end-to-end-image-classifier
+repo_name: Hadayxinchao/end-to-end-image-classifier
+repo_url: https://github.com/Hadayxinchao/end-to-end-image-classifier
 edit_uri: edit/main/docs/
 
 # Copyright
-copyright: Copyright &copy; 2025 Your Name
+copyright: Copyright &copy; 2025 Hoang Ha
 
 # Configuration
 theme:
@@ -52,7 +52,11 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
@@ -112,9 +116,9 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername
+      link: https://github.com/Hadayxinchao
     - icon: fontawesome/brands/linkedin
-      link: https://linkedin.com/in/yourprofile
+      link: https://linkedin.com/in/hadayxinchao
   
   version:
     provider: mike

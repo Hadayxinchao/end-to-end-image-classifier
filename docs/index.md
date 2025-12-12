@@ -21,7 +21,7 @@ Get started in 3 simple steps:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/end-to-end-image-classifier.git
+git clone https://github.com/Hadayxinchao/end-to-end-image-classifier.git
 cd end-to-end-image-classifier
 
 # 2. Install dependencies
@@ -113,33 +113,26 @@ docker run image-classifier python src/models/predict.py --help
 
 ## 🏗️ Project Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     GitHub Repository                        │
-│                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │   Source     │  │    Tests     │  │   Configs    │     │
-│  │    Code      │  │   (pytest)   │  │   (Hydra)    │     │
-│  └──────────────┘  └──────────────┘  └──────────────┘     │
-│                                                              │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │           GitHub Actions (CI/CD)                      │  │
-│  │  - Lint & Test  - Train Model  - Generate Reports    │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-                  ┌─────────────────┐
-                  │   DVC Remote    │
-                  │  (Data Storage) │
-                  └─────────────────┘
-                           │
-                           ▼
-                  ┌─────────────────┐
-                  │  Docker Image   │
-                  │  (Deployment)   │
-                  └─────────────────┘
+```mermaid
+graph TD
+    A["GitHub Repository"] --> B["Source Code"]
+    A --> C["Tests<br/>(pytest)"]
+    A --> D["Configs<br/>(Hydra)"]
+    B --> E["GitHub Actions<br/>(CI/CD)"]
+    C --> E
+    D --> E
+    E --> F["Lint & Test"]
+    E --> G["Train Model"]
+    E --> H["Generate Reports"]
+    F --> I["DVC Remote<br/>(Data Storage)"]
+    G --> I
+    H --> I
+    I --> J["Docker Image<br/>(Deployment)"]
+    
+    style A fill:#4A90E2,stroke:#2E5C8A,color:#fff
+    style E fill:#7B68EE,stroke:#5A4B96,color:#fff
+    style I fill:#50C878,stroke:#3A8B56,color:#fff
+    style J fill:#FF6B6B,stroke:#C44444,color:#fff
 ```
 
 ## 🎓 Learning Resources
@@ -180,7 +173,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions or feedback:
 
-- GitHub Issues: [Report an issue](https://github.com/yourusername/end-to-end-image-classifier/issues)
+- GitHub Issues: [Report an issue](https://github.com/Hadayxinchao/end-to-end-image-classifier/issues)
 - Email: your.email@example.com
 
 ---

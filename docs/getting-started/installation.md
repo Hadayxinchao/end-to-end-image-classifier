@@ -16,7 +16,7 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/end-to-end-image-classifier.git
+git clone https://github.com/Hadayxinchao/end-to-end-image-classifier.git
 cd end-to-end-image-classifier
 ```
 
@@ -177,5 +177,5 @@ Now that you've installed the project, check out:
 If you encounter any issues:
 
 1. Check the [Troubleshooting](#troubleshooting) section
-2. Search [GitHub Issues](https://github.com/yourusername/end-to-end-image-classifier/issues)
+2. Search [GitHub Issues](https://github.com/Hadayxinchao/end-to-end-image-classifier/issues)
 3. Create a new issue with details about your problem
