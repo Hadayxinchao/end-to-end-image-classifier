@@ -4,10 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from src.utils.metrics import (
-    AverageMeter,
-    calculate_metrics,
-)
+from src.utils.metrics import AverageMeter, calculate_metrics
 
 
 class TestMetrics:

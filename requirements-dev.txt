@@ -1,0 +1,32 @@
+# Development dependencies
+-r requirements.txt
+
+# Pre-commit hooks
+pre-commit>=3.5.0
+
+# API serving
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+gunicorn>=21.2.0
+
+# Experiment tracking
+mlflow>=2.8.0
+wandb>=0.16.0
+
+# Data validation
+great-expectations>=0.18.0
+
+# Additional development tools
+ipython>=8.17.0
+notebook>=7.0.0
+jupyterlab>=4.0.0
+
+# Advanced testing
+pytest-xdist>=3.5.0  # Parallel testing
+pytest-timeout>=2.2.0
+pytest-mock>=3.12.0
+
+# Code quality
+pylint>=3.0.0
+autopep8>=2.0.0

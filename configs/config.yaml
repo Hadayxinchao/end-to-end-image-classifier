@@ -25,3 +25,15 @@ early_stopping_patience: 10
 # Experiment tracking
 experiment_name: image_classifier
 run_name: ${now:%Y-%m-%d_%H-%M-%S}
+
+# Experiment tracking (optional - requires env vars)
+# MLflow: Set MLFLOW_TRACKING_URI (e.g., http://localhost:5000 or file:///path/to/mlruns)
+# W&B: Set WANDB_API_KEY
+tracking:
+  enabled: true
+  mlflow:
+    experiment_name: image-classifier
+    tracking_uri: ${oc.env:MLFLOW_TRACKING_URI,null}
+  wandb:
+    project: image-classifier
+    entity: ${oc.env:WANDB_ENTITY,null}
