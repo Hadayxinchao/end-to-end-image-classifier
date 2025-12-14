@@ -1,5 +1,6 @@
 """Training script with Hydra configuration management."""
 
+import os
 import random
 from pathlib import Path
 
@@ -9,19 +10,29 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from omegaconf import DictConfig, OmegaConf
-from torch.optim.lr_scheduler import CosineAnnealingLR, ReduceLROnPlateau, StepLR
+from torch.optim.lr_scheduler import (CosineAnnealingLR, ReduceLROnPlateau,
+                                      StepLR)
 from tqdm import tqdm
 
 from data.make_dataset import load_cifar10, load_mnist
 from models.model import get_model
 from models.predict import predict_batch
-from utils.metrics import (
-    AverageMeter,
-    calculate_metrics,
-    plot_confusion_matrix,
-    plot_training_history,
-    save_classification_report,
-)
+from utils.metrics import (AverageMeter, calculate_metrics,
+                           plot_confusion_matrix, plot_training_history,
+                           save_classification_report)
+
+# Optional experiment tracking (import if available)
+try:
+    import mlflow
+    MLFLOW_AVAILABLE = True
+except ImportError:
+    MLFLOW_AVAILABLE = False
+
+try:
+    import wandb
+    WANDB_AVAILABLE = True
+except ImportError:
+    WANDB_AVAILABLE = False
 
 
 def set_seed(seed: int):
@@ -40,6 +51,84 @@ def get_device(device_config: str) -> torch.device:
         return torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
         return torch.device(device_config)
+
+
+def setup_experiment_tracking(cfg: DictConfig, enabled: bool = True):
+    """Setup MLflow and W&B experiment tracking."""
+    tracking = {"mlflow": False, "wandb": False}
+    
+    if not enabled:
+        return tracking
+    
+    # Setup MLflow
+    if MLFLOW_AVAILABLE and os.getenv("MLFLOW_TRACKING_URI") is not None:
+        try:
+            mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
+            mlflow.set_experiment("image-classifier")
+            mlflow.start_run(run_name=f"{cfg.model.name}_{cfg.data.name}")
+            
+            # Log parameters
+            mlflow.log_params({
+                "model_name": cfg.model.name,
+                "dataset": cfg.data.name,
+                "learning_rate": cfg.hyperparameters.learning_rate,
+                "batch_size": cfg.hyperparameters.batch_size,
+                "optimizer": cfg.hyperparameters.optimizer,
+                "num_epochs": cfg.hyperparameters.num_epochs,
+                "dropout": cfg.hyperparameters.dropout,
+                "seed": cfg.seed,
+            })
+            
+            tracking["mlflow"] = True
+            print("✅ MLflow tracking enabled")
+        except Exception as e:
+            print(f"⚠️  MLflow setup failed: {e}")
+    
+    # Setup W&B
+    if WANDB_AVAILABLE and os.getenv("WANDB_API_KEY") is not None:
+        try:
+            wandb.init(
+                project="image-classifier",
+                name=f"{cfg.model.name}_{cfg.data.name}",
+                config=OmegaConf.to_container(cfg, resolve=True),
+                tags=[cfg.model.name, cfg.data.name],
+            )
+            tracking["wandb"] = True
+            print("✅ W&B tracking enabled")
+        except Exception as e:
+            print(f"⚠️  W&B setup failed: {e}")
+    
+    return tracking
+
+
+def log_metrics(metrics: dict, step: int, tracking: dict):
+    """Log metrics to experiment tracking systems."""
+    if tracking.get("mlflow"):
+        try:
+            mlflow.log_metrics(metrics, step=step)
+        except Exception:
+            pass
+    
+    if tracking.get("wandb"):
+        try:
+            wandb.log({**metrics, "epoch": step})
+        except Exception:
+            pass
+
+
+def finish_experiment_tracking(tracking: dict):
+    """Finish experiment tracking."""
+    if tracking.get("mlflow"):
+        try:
+            mlflow.end_run()
+        except Exception:
+            pass
+    
+    if tracking.get("wandb"):
+        try:
+            wandb.finish()
+        except Exception:
+            pass
 
 
 def train_epoch(model, train_loader, criterion, optimizer, device, clip_grad_norm=None):
@@ -162,6 +251,9 @@ def main(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     print("=" * 80)
 
+    # Setup experiment tracking
+    tracking = setup_experiment_tracking(cfg, enabled=True)
+
     # Set seed
     set_seed(cfg.seed)
 
@@ -254,6 +346,19 @@ def main(cfg: DictConfig):
         history["val_loss"].append(val_loss)
         history["val_acc"].append(val_acc)
 
+        # Log metrics to tracking systems
+        log_metrics(
+            {
+                "train/loss": train_loss,
+                "train/accuracy": train_acc,
+                "val/loss": val_loss,
+                "val/accuracy": val_acc,
+                "learning_rate": optimizer.param_groups[0]["lr"],
+            },
+            step=epoch,
+            tracking=tracking,
+        )
+
         # Print epoch summary
         current_lr = optimizer.param_groups[0]["lr"]
         print("\nEpoch Summary:")
@@ -340,6 +445,51 @@ def main(cfg: DictConfig):
     plot_training_history(history, save_path=str(report_dir / "training_history.png"))
 
     print(f"\nReports saved to {report_dir}")
+
+    # Log final metrics and artifacts to tracking systems
+    if tracking.get("mlflow"):
+        try:
+            mlflow.log_metrics(
+                {
+                    "test/loss": test_loss,
+                    "test/accuracy": test_acc,
+                    "best_val_accuracy": best_val_acc,
+                    **{f"test/{k}": v for k, v in metrics.items()},
+                }
+            )
+            mlflow.log_artifacts(str(report_dir))
+            mlflow.pytorch.log_model(model, "model")
+            print("✅ Logged to MLflow")
+        except Exception as e:
+            print(f"⚠️  MLflow logging failed: {e}")
+
+    if tracking.get("wandb"):
+        try:
+            wandb.log(
+                {
+                    "test/loss": test_loss,
+                    "test/accuracy": test_acc,
+                    "best_val_accuracy": best_val_acc,
+                }
+            )
+            wandb.log(
+                {
+                    "confusion_matrix": wandb.Image(
+                        str(report_dir / "confusion_matrix.png")
+                    ),
+                    "training_history": wandb.Image(
+                        str(report_dir / "training_history.png")
+                    ),
+                }
+            )
+            wandb.save(str(best_model_path))
+            print("✅ Logged to W&B")
+        except Exception as e:
+            print(f"⚠️  W&B logging failed: {e}")
+
+    # Finish tracking
+    finish_experiment_tracking(tracking)
+
     print("\n" + "=" * 80)
     print("All done! 🎉")
 

@@ -7,14 +7,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from sklearn.metrics import (
-    accuracy_score,
-    classification_report,
-    confusion_matrix,
-    f1_score,
-    precision_score,
-    recall_score,
-)
+from sklearn.metrics import (accuracy_score, classification_report,
+                             confusion_matrix, f1_score, precision_score,
+                             recall_score)
 
 matplotlib.use("Agg")  # Use non-interactive backend for headless environments
 
