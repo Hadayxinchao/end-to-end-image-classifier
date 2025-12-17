@@ -1,0 +1,32 @@
+# MLflow Configuration
+enabled: true
+tracking_uri: ./mlruns  # Local tracking, can be changed to remote server
+experiment_name: ${experiment_name}
+run_name: ${run_name}
+
+# What to log
+log_params: true
+log_metrics: true
+log_models: true
+log_artifacts: true
+
+# Model logging
+model_artifact_path: model
+register_model: false  # Set to true to register in MLflow Model Registry
+registered_model_name: ${model.name}_${data.name}
+
+# Artifact logging
+save_confusion_matrix: true
+save_training_plots: true
+save_classification_report: true
+save_model_summary: true
+
+# Autologging
+autolog: false  # Set to true for automatic logging (logs everything)
+autolog_params:
+  log_every_n_epoch: 1
+  log_models: true
+  disable: false
+  exclusive: false
+  disable_for_unsupported_versions: false
+  silent: false

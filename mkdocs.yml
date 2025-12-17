@@ -97,6 +97,7 @@ nav:
   - MLOps:
     - CI/CD Pipeline: mlops/cicd.md
     - Data Versioning: mlops/dvc.md
+    - Experiment Tracking: mlops/experiment-tracking.md
     - Model Versioning: mlops/model-versioning.md
     - Docker: mlops/docker.md
   - API Reference:

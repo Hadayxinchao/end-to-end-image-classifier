@@ -15,6 +15,7 @@ from tqdm import tqdm
 from data.make_dataset import load_cifar10, load_mnist
 from models.model import get_model
 from models.predict import predict_batch
+from utils.experiment_tracking import ExperimentTracker
 from utils.metrics import (
     AverageMeter,
     calculate_metrics,
@@ -162,6 +163,19 @@ def main(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     print("=" * 80)
 
+    # Initialize experiment tracking
+    tracking_backend = "mlflow" if hasattr(cfg, "tracking") else None
+    if hasattr(cfg, "tracking") and hasattr(cfg.tracking, "enabled") and not cfg.tracking.enabled:
+        tracking_backend = None
+    
+    tracker = None
+    if tracking_backend:
+        try:
+            tracker = ExperimentTracker(cfg, tracking_backend=tracking_backend)
+        except Exception as e:
+            print(f"Warning: Could not initialize experiment tracking: {e}")
+            tracker = None
+
     # Set seed
     set_seed(cfg.seed)
 
@@ -209,10 +223,30 @@ def main(cfg: DictConfig):
     print(f"Total parameters: {total_params:,}")
     print(f"Trainable parameters: {trainable_params:,}")
 
+    # Watch model for gradient tracking (W&B)
+    if tracker:
+        tracker.watch_model(model)
+
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss(label_smoothing=cfg.hyperparameters.label_smoothing)
     optimizer = get_optimizer(model, cfg)
     scheduler = get_scheduler(optimizer, cfg)
+
+    # Log hyperparameters and configuration
+    if tracker:
+        params_to_log = {
+            "model": cfg.model.name,
+            "dataset": cfg.data.name,
+            "num_classes": cfg.data.num_classes,
+            "batch_size": cfg.hyperparameters.batch_size,
+            "learning_rate": cfg.hyperparameters.learning_rate,
+            "optimizer": cfg.hyperparameters.optimizer,
+            "num_epochs": cfg.hyperparameters.num_epochs,
+            "total_params": total_params,
+            "trainable_params": trainable_params,
+            "device": str(device),
+        }
+        tracker.log_params(params_to_log)
 
     # Training history
     history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
@@ -260,6 +294,19 @@ def main(cfg: DictConfig):
         print(f"  Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.2f}%")
         print(f"  Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.2f}%")
         print(f"  Learning Rate: {current_lr:.6f}")
+
+        # Log metrics to experiment tracker
+        if tracker:
+            tracker.log_metrics(
+                {
+                    "train_loss": train_loss,
+                    "train_acc": train_acc,
+                    "val_loss": val_loss,
+                    "val_acc": val_acc,
+                    "learning_rate": current_lr,
+                },
+                step=epoch,
+            )
 
         # Save best model
         if val_acc > best_val_acc:
@@ -316,6 +363,13 @@ def main(cfg: DictConfig):
     for metric_name, metric_value in metrics.items():
         print(f"  {metric_name}: {metric_value:.4f}")
 
+    # Log test metrics to tracker
+    if tracker:
+        test_metrics = {f"test_{k}": v for k, v in metrics.items()}
+        test_metrics["test_loss"] = test_loss
+        test_metrics["test_acc"] = test_acc
+        tracker.log_metrics(test_metrics)
+
     # Save reports
     report_dir = Path(cfg.report_dir)
     report_dir.mkdir(parents=True, exist_ok=True)
@@ -340,6 +394,24 @@ def main(cfg: DictConfig):
     plot_training_history(history, save_path=str(report_dir / "training_history.png"))
 
     print(f"\nReports saved to {report_dir}")
+
+    # Log artifacts to experiment tracker
+    if tracker:
+        print("\nLogging artifacts to experiment tracker...")
+        tracker.log_artifact(report_dir / "confusion_matrix.png", "reports")
+        tracker.log_artifact(report_dir / "classification_report.txt", "reports")
+        tracker.log_artifact(report_dir / "training_history.png", "reports")
+        
+        # Log best model
+        if best_model_path.exists():
+            tracker.log_model(model, model_path=best_model_path)
+        
+        print("✓ Artifacts logged successfully")
+
+    # Finish experiment tracking
+    if tracker:
+        tracker.finish()
+
     print("\n" + "=" * 80)
     print("All done! 🎉")
 

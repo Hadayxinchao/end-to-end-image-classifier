@@ -1,0 +1,42 @@
+# Weights & Biases Configuration
+enabled: true
+project: image-classifier  # Your W&B project name
+entity: null  # Your W&B username or team name (null = default)
+name: ${run_name}
+group: ${model.name}_${data.name}
+job_type: train
+tags:
+  - ${model.name}
+  - ${data.name}
+  - pytorch
+
+# W&B settings
+mode: online  # online, offline, or disabled
+save_code: true
+notes: null  # Add notes about the run
+
+# What to log
+log_params: true
+log_metrics: true
+log_gradients: false  # Set to true to log gradients (can be expensive)
+log_model: true
+log_artifacts: true
+
+# Logging frequency
+log_freq: 10  # Log metrics every N batches
+
+# Model logging
+watch_model: false  # Set to true to watch model gradients and parameters
+watch_freq: 100  # Log model every N batches (if watch_model is true)
+watch_log: "gradients"  # "gradients", "parameters", or "all"
+watch_log_graph: false  # Log model graph
+
+# Artifact logging
+save_confusion_matrix: true
+save_training_plots: true
+save_classification_report: true
+save_model_summary: true
+
+# Resume settings
+resume: false  # Set to "allow", "must", "never", or "auto"
+resume_id: null  # Run ID to resume from

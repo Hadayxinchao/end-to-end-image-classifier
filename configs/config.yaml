@@ -5,6 +5,7 @@ defaults:
   - model: simple_cnn
   - data: cifar10
   - hyperparameters: default
+  - tracking: mlflow  # mlflow, wandb, or null to disable
   - _self_
 
 # Training settings

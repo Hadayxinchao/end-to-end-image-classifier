@@ -1,0 +1,11 @@
+# .gitignore entries for experiment tracking
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Weights & Biases
+wandb/
+
+# Experiment outputs
+*.log

@@ -8,6 +8,7 @@ This project implements a full MLOps workflow for image classification, covering
 - ✅ Standardized project structure
 - ✅ Configuration management with Hydra
 - ✅ Data versioning with DVC
+- ✅ **Experiment tracking with MLflow and W&B**
 - ✅ Unit testing with pytest
 - ✅ CI/CD with GitHub Actions
 - ✅ Continuous ML with CML
@@ -119,12 +120,36 @@ dvc init
 # Train with default config
 python src/training/train.py
 
+# Train with experiment tracking (MLflow)
+python src/training/train.py tracking=mlflow
+
+# Train with Weights & Biases
+python src/training/train.py tracking=wandb
+
 # Override parameters
 python src/training/train.py hyperparameters.learning_rate=0.001 hyperparameters.batch_size=64
 
 # Use different config
-python src/training/train.py --config-name=experiment1
+python src/training/train.py model=resnet data=mnist
 ```
+
+#### Experiment Tracking
+
+```bash
+# Setup experiment tracking
+./scripts/setup_tracking.sh
+
+# View MLflow UI
+mlflow ui
+
+# Compare experiments
+python scripts/compare_experiments.py --experiment image_classifier
+
+# Run hyperparameter sweep (W&B)
+python scripts/wandb_sweep.py
+```
+
+See [EXPERIMENT_TRACKING.md](EXPERIMENT_TRACKING.md) for detailed usage.
 
 #### Testing
 

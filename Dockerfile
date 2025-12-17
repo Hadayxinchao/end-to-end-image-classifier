@@ -20,8 +20,11 @@ COPY requirements-ci.txt .
 # Install Python dependencies (use CI requirements - lighter)
 RUN pip install --no-cache-dir -r requirements-ci.txt
 
-# Copy only necessary source files (not entire project)
+# Copy necessary files for package installation
 COPY setup.py .
+COPY README.md .
+
+# Copy source files
 COPY src/ ./src/
 COPY configs/ ./configs/
 
@@ -34,8 +37,10 @@ RUN mkdir -p /app/data/raw /app/models /app/reports
 # Expose port for potential web service
 EXPOSE 8000
 
-# Default command - can be overridden
-CMD ["python", "src/training/train.py"]
+# Default command - run FastAPI server
+CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
+# To run training instead, override with:
+# docker run image-classifier python src/training/train.py
 # To run inference instead, override with:
 # docker run image-classifier python src/models/predict.py --help
