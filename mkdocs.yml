@@ -94,12 +94,15 @@ nav:
   - Making Predictions: guide/inference.md
   - Data Management: guide/data.md
   - Experiments: guide/experiments.md
+  - FastAPI Server: guide/fastapi.md
 - MLOps:
+  - Automation Guide: mlops/automation.md
   - CI/CD Pipeline: mlops/cicd.md
   - Data Versioning: mlops/dvc.md
   - Experiment Tracking: mlops/experiment-tracking.md
   - Model Versioning: mlops/model-versioning.md
   - Docker: mlops/docker.md
+  - Tracking Cheatsheet: mlops/tracking-cheatsheet.md
 - API Reference:
   - Data Module: api/data.md
   - Models Module: api/models.md

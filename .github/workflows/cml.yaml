@@ -59,7 +59,7 @@ jobs:
     - name: Train model
       run: |
         # Train with fast config for CI
-        python src/training/train.py \
+        python -m src.training.train \
           hyperparameters=fast \
           hyperparameters.num_epochs=3 \
           hyperparameters.batch_size=128 \

@@ -9,11 +9,46 @@ This project implements a full MLOps workflow for image classification, covering
 - ✅ Configuration management with Hydra
 - ✅ Data versioning with DVC
 - ✅ **Experiment tracking with MLflow and W&B**
+- ✅ **Pre-commit hooks & Auto-formatting**
+- ✅ **Security scanning with Bandit**
+- ✅ **Dependency vulnerability checking**
+- ✅ **Docker optimization (multi-stage)**
+- ✅ **Kubernetes deployment (production-ready)**
+- ✅ **Weights & Biases tracking**
 - ✅ Unit testing with pytest
 - ✅ CI/CD with GitHub Actions
-- ✅ Continuous ML with CML
 - ✅ Docker containerization
 - ✅ Documentation with MkDocs
+
+## 🚀 Quick Start
+
+```bash
+# 1. Clone repository
+git clone https://github.com/Hadayxinchao/end-to-end-image-classifier.git
+cd end-to-end-image-classifier
+
+# 2. Install dependencies
+pip install -r requirements.txt
+pip install -e .
+
+# 3. Setup pre-commit hooks
+make setup-precommit
+
+# 4. Setup W&B
+make wandb-setup
+
+# 5. Start training with W&B tracking
+make train-wandb
+```
+
+## 📚 Documentation
+
+- **[MLOPS_AUTOMATION_GUIDE.md](MLOPS_AUTOMATION_GUIDE.md)** - Comprehensive automation guide
+- **[GETTING_STARTED.md](GETTING_STARTED.md)** - Complete setup instructions
+- **[DOCKER.md](DOCKER.md)** - Docker usage guide
+- **[DVC_SETUP.md](DVC_SETUP.md)** - Data versioning setup
+- **[EXPERIMENT_TRACKING.md](EXPERIMENT_TRACKING.md)** - Experiment tracking guide
+- **[Online Documentation](https://hadayxinchao.github.io/end-to-end-image-classifier/)** - Full MkDocs documentation
 
 ## 📁 Project Structure
 
