@@ -115,11 +115,11 @@ def process_batch(
     labels: np.ndarray
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Process a batch of images and labels.
-    
+
     Args:
         images: Image array of shape (B, C, H, W)
         labels: Label array of shape (B,)
-    
+
     Returns:
         Processed images and labels
     """
@@ -138,26 +138,26 @@ def train_model(
     learning_rate: float = 0.001
 ) -> dict:
     """Train a model.
-    
+
     Args:
         train_loader: Training data loader
         val_loader: Validation data loader
         num_epochs: Number of training epochs
         learning_rate: Learning rate for optimizer
-    
+
     Returns:
         Dictionary containing training history
-    
+
     Raises:
         ValueError: If num_epochs <= 0
-        
+
     Example:
         >>> history = train_model(train_loader, val_loader)
         >>> print(history['accuracy'])
     """
     if num_epochs <= 0:
         raise ValueError("num_epochs must be positive")
-    
+
     # Implementation
     return {}
 ```
@@ -174,22 +174,22 @@ from src.models.model import SimpleCNN, get_model
 
 class TestSimpleCNN:
     """Test SimpleCNN model."""
-    
+
     @pytest.fixture
     def model(self):
         """Create test model."""
         return SimpleCNN(num_classes=10, image_size=32)
-    
+
     def test_initialization(self, model):
         """Test model initialization."""
         assert model is not None
-    
+
     def test_forward_pass(self, model):
         """Test forward pass."""
         x = torch.randn(2, 3, 32, 32)
         y = model(x)
         assert y.shape == (2, 10)
-    
+
     @pytest.mark.parametrize("image_size", [28, 32, 64])
     def test_different_sizes(self, image_size):
         """Test model with different input sizes."""

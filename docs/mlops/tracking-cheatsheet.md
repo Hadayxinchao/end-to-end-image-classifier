@@ -97,14 +97,14 @@ with mlflow.start_run():
     # Log params
     mlflow.log_param("learning_rate", 0.01)
     mlflow.log_params({"batch_size": 32, "epochs": 10})
-    
+
     # Log metrics
     mlflow.log_metric("accuracy", 0.95)
     mlflow.log_metric("loss", 0.05, step=1)
-    
+
     # Log model
     mlflow.pytorch.log_model(model, "model")
-    
+
     # Log artifacts
     mlflow.log_artifact("plot.png")
     mlflow.log_artifacts("./reports")
@@ -135,7 +135,7 @@ wandb.log({"predictions": wandb.Image(image_array)})
 
 # Log plots
 wandb.log({"confusion_matrix": wandb.plot.confusion_matrix(
-    y_true=y_true, 
+    y_true=y_true,
     preds=preds,
     class_names=class_names
 )})

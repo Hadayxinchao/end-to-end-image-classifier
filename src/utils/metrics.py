@@ -1,7 +1,7 @@
 """Metrics and evaluation utilities."""
 
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -45,7 +45,7 @@ def plot_confusion_matrix(
     predictions: np.ndarray,
     labels: np.ndarray,
     class_names: List[str],
-    save_path: str = None,
+    save_path: Optional[str] = None,
     figsize: Tuple[int, int] = (10, 8),
 ):
     """
@@ -109,7 +109,9 @@ def save_classification_report(
     print(f"Classification report saved to {save_path}")
 
 
-def plot_training_history(history: dict, save_path: str = None, figsize: Tuple[int, int] = (12, 4)):
+def plot_training_history(
+    history: dict, save_path: Optional[str] = None, figsize: Tuple[int, int] = (12, 4)
+):
     """
     Plot training history (loss and accuracy).
 
@@ -154,6 +156,7 @@ class AverageMeter:
     """Computes and stores the average and current value."""
 
     def __init__(self):
+        """Initialize the AverageMeter."""
         self.reset()
 
     def reset(self):

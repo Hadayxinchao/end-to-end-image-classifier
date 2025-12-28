@@ -135,36 +135,36 @@ def train_model(
     learning_rate: float = 0.001
 ) -> Dict[str, List[float]]:
     """Train a neural network model.
-    
+
     Long description of what this function does,
     including important details and context.
-    
+
     Args:
         model: PyTorch model to train
         train_loader: Training data loader
         val_loader: Validation data loader
         num_epochs: Number of training epochs. Defaults to 50.
         learning_rate: Learning rate for optimizer. Defaults to 0.001.
-    
+
     Returns:
         Dictionary containing training history with keys:
         - 'train_loss': List of training losses
         - 'val_loss': List of validation losses
         - 'train_acc': List of training accuracies
         - 'val_acc': List of validation accuracies
-    
+
     Raises:
         ValueError: If num_epochs <= 0
         TypeError: If model is not a torch.nn.Module
-    
+
     Example:
         >>> model = SimpleCNN()
         >>> history = train_model(model, train_loader, val_loader)
         >>> print(history['val_acc'][-1])
-    
+
     Note:
         This function modifies the model in-place.
-        
+
     See Also:
         validate() - Function for model validation
     """

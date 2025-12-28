@@ -2,11 +2,11 @@
 # Override from command line: python train.py hyperparameters.learning_rate=0.001
 
 defaults:
-  - model: simple_cnn
-  - data: cifar10
-  - hyperparameters: default
-  - tracking: mlflow  # mlflow, wandb, or null to disable
-  - _self_
+- model: simple_cnn
+- data: cifar10
+- hyperparameters: default
+- tracking: mlflow    # mlflow, wandb, or null to disable
+- _self_
 
 # Training settings
 seed: 42

@@ -1,34 +1,38 @@
 # Weights & Biases Configuration
 enabled: true
+backend: wandb  # wandb, mlflow, or both
 project: image-classifier  # Your W&B project name
-entity: null  # Your W&B username or team name (null = default)
+entity:       # Your W&B username or team name (null = default)
 name: ${run_name}
 group: ${model.name}_${data.name}
 job_type: train
 tags:
-  - ${model.name}
-  - ${data.name}
-  - pytorch
+- ${model.name}
+- ${data.name}
+- pytorch
 
 # W&B settings
 mode: online  # online, offline, or disabled
 save_code: true
-notes: null  # Add notes about the run
+notes:       # Add notes about the run
 
 # What to log
 log_params: true
 log_metrics: true
-log_gradients: false  # Set to true to log gradients (can be expensive)
+log_gradients: true  # Log weight and bias gradients
+log_weights: true  # Log weight and bias histograms
 log_model: true
 log_artifacts: true
 
 # Logging frequency
 log_freq: 10  # Log metrics every N batches
+weights_log_freq: 10  # Log weights/biases every N epochs
 
-# Model logging
-watch_model: false  # Set to true to watch model gradients and parameters
-watch_freq: 100  # Log model every N batches (if watch_model is true)
-watch_log: "gradients"  # "gradients", "parameters", or "all"
+# Model watching (gradient and parameter tracking)
+watch_model: true  # Watch model gradients and parameters
+watch_freq: 100  # Log model stats every N batches
+watch_mode: all  # all, gradients, or parameters
+watch_log: gradients    # "gradients", "parameters", or "all"
 watch_log_graph: false  # Log model graph
 
 # Artifact logging
@@ -39,4 +43,4 @@ save_model_summary: true
 
 # Resume settings
 resume: false  # Set to "allow", "must", "never", or "auto"
-resume_id: null  # Run ID to resume from
+resume_id:       # Run ID to resume from

@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: image-classifier-ingress
+  namespace: mlops-image-classifier
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/rate-limit: '100'
+spec:
+  tls:
+  - hosts:
+    - image-classifier.example.com
+    secretName: image-classifier-tls
+  rules:
+  - host: image-classifier.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: image-classifier-service
+            port:
+              number: 80

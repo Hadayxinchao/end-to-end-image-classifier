@@ -2,6 +2,7 @@
 
 import random
 from pathlib import Path
+from typing import Dict, Optional
 
 import hydra
 import numpy as np
@@ -12,17 +13,17 @@ from omegaconf import DictConfig, OmegaConf
 from torch.optim.lr_scheduler import CosineAnnealingLR, ReduceLROnPlateau, StepLR
 from tqdm import tqdm
 
-from data.make_dataset import load_cifar10, load_mnist
-from models.model import get_model
-from models.predict import predict_batch
-from utils.experiment_tracking import ExperimentTracker
-from utils.metrics import (
+from src.data.make_dataset import load_cifar10, load_mnist
+from src.models.model import get_model
+from src.models.predict import predict_batch
+from src.utils.metrics import (
     AverageMeter,
     calculate_metrics,
     plot_confusion_matrix,
     plot_training_history,
     save_classification_report,
 )
+from src.utils.wandb_tracker import ExperimentTracker
 
 
 def set_seed(seed: int):
@@ -154,9 +155,8 @@ def get_scheduler(optimizer, cfg):
 
 
 @hydra.main(version_base=None, config_path="../../configs", config_name="config")
-def main(cfg: DictConfig):
-    """Main training function."""
-
+def main(cfg: DictConfig):  # noqa: C901
+    """Run the main training pipeline."""
     # Print configuration
     print("=" * 80)
     print("Configuration:")
@@ -164,10 +164,13 @@ def main(cfg: DictConfig):
     print("=" * 80)
 
     # Initialize experiment tracking
-    tracking_backend = "mlflow" if hasattr(cfg, "tracking") else None
-    if hasattr(cfg, "tracking") and hasattr(cfg.tracking, "enabled") and not cfg.tracking.enabled:
-        tracking_backend = None
-    
+    tracking_backend: Optional[str] = "wandb"  # Default to W&B
+    if hasattr(cfg, "tracking"):
+        if hasattr(cfg.tracking, "enabled") and not cfg.tracking.enabled:
+            tracking_backend = None
+        elif hasattr(cfg.tracking, "backend"):
+            tracking_backend = cfg.tracking.backend
+
     tracker = None
     if tracking_backend:
         try:
@@ -223,9 +226,9 @@ def main(cfg: DictConfig):
     print(f"Total parameters: {total_params:,}")
     print(f"Trainable parameters: {trainable_params:,}")
 
-    # Watch model for gradient tracking (W&B)
+    # Log model architecture and watch for gradient tracking
     if tracker:
-        tracker.watch_model(model)
+        tracker.log_model_architecture(model)
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss(label_smoothing=cfg.hyperparameters.label_smoothing)
@@ -235,8 +238,8 @@ def main(cfg: DictConfig):
     # Log hyperparameters and configuration
     if tracker:
         params_to_log = {
-            "model": cfg.model.name,
-            "dataset": cfg.data.name,
+            "model_name": cfg.model.name,
+            "dataset_name": cfg.data.name,
             "num_classes": cfg.data.num_classes,
             "batch_size": cfg.hyperparameters.batch_size,
             "learning_rate": cfg.hyperparameters.learning_rate,
@@ -244,12 +247,12 @@ def main(cfg: DictConfig):
             "num_epochs": cfg.hyperparameters.num_epochs,
             "total_params": total_params,
             "trainable_params": trainable_params,
-            "device": str(device),
+            "device_name": str(device),
         }
         tracker.log_params(params_to_log)
 
     # Training history
-    history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
+    history: Dict[str, list] = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
 
     best_val_acc = 0.0
     patience_counter = 0
@@ -307,6 +310,12 @@ def main(cfg: DictConfig):
                 },
                 step=epoch,
             )
+            # Log learning rate separately for better tracking
+            tracker.log_learning_rate(current_lr, epoch)
+
+            # Log weight histograms every 10 epochs
+            if epoch % 10 == 0:
+                tracker.log_weights_histograms(model, epoch)
 
         # Save best model
         if val_acc > best_val_acc:
@@ -329,6 +338,15 @@ def main(cfg: DictConfig):
                 )
 
                 print(f"  ✓ Best model saved! (Val Acc: {val_acc:.2f}%)")
+
+                # Log model checkpoint to tracker
+                if tracker:
+                    tracker.log_model_checkpoint(
+                        model,
+                        str(model_save_path),
+                        {"val_acc": val_acc, "val_loss": val_loss, "epoch": epoch},
+                        is_best=True,
+                    )
         else:
             patience_counter += 1
 
@@ -344,9 +362,10 @@ def main(cfg: DictConfig):
     # Load best model for evaluation
     best_model_path = Path(cfg.model_save_dir) / f"{cfg.model.name}_best.pth"
     if best_model_path.exists():
-        checkpoint = torch.load(best_model_path)
+        checkpoint = torch.load(best_model_path, map_location=device)
         model.load_state_dict(checkpoint["model_state_dict"])
-        print(f"\nLoaded best model from epoch {checkpoint['epoch'] + 1}")
+        epoch_info = f" from epoch {checkpoint['epoch'] + 1}" if "epoch" in checkpoint else ""
+        print(f"\nLoaded best model{epoch_info}")
 
     # Evaluate on test set
     print("\nEvaluating on test set...")
@@ -355,7 +374,7 @@ def main(cfg: DictConfig):
 
     # Generate predictions and metrics
     print("\nGenerating predictions and metrics...")
-    predictions, true_labels = predict_batch(model, test_loader, device)
+    predictions, true_labels = predict_batch(model, test_loader, device)  # type: ignore[arg-type]
 
     # Calculate metrics
     metrics = calculate_metrics(predictions, true_labels)
@@ -398,14 +417,18 @@ def main(cfg: DictConfig):
     # Log artifacts to experiment tracker
     if tracker:
         print("\nLogging artifacts to experiment tracker...")
-        tracker.log_artifact(report_dir / "confusion_matrix.png", "reports")
-        tracker.log_artifact(report_dir / "classification_report.txt", "reports")
-        tracker.log_artifact(report_dir / "training_history.png", "reports")
-        
-        # Log best model
-        if best_model_path.exists():
-            tracker.log_model(model, model_path=best_model_path)
-        
+        tracker.log_artifact(str(report_dir / "confusion_matrix.png"), "report", "confusion_matrix")
+        tracker.log_artifact(
+            str(report_dir / "classification_report.txt"), "report", "classification_report"
+        )
+        tracker.log_artifact(str(report_dir / "training_history.png"), "report", "training_history")
+
+        # Log confusion matrix as image to W&B
+        from PIL import Image
+
+        cm_img = Image.open(report_dir / "confusion_matrix.png")
+        tracker.log_image("confusion_matrix", cm_img, "Final Confusion Matrix")
+
         print("✓ Artifacts logged successfully")
 
     # Finish experiment tracking

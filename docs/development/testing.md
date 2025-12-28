@@ -109,11 +109,11 @@ def test_training_pipeline(train_loader, val_loader):
     model = get_model("simple_cnn", num_classes=10, image_size=32)
     optimizer = torch.optim.Adam(model.parameters())
     criterion = torch.nn.CrossEntropyLoss()
-    
+
     train_loss, train_acc = train_epoch(
         model, train_loader, criterion, optimizer, device
     )
-    
+
     assert train_loss > 0
     assert 0 <= train_acc <= 100
 ```
@@ -165,7 +165,7 @@ def sample_batch():
 def test_model_forward(model, sample_batch, device):
     images, labels = sample_batch
     images = images.to(device)
-    
+
     output = model(images)
     assert output.shape == (4, 10)
 ```
@@ -180,7 +180,7 @@ from unittest.mock import patch, MagicMock
 @patch('src.data.make_dataset.torchvision.datasets.CIFAR10')
 def test_load_cifar10(mock_cifar10):
     mock_cifar10.return_value = MagicMock()
-    
+
     train_loader, _, _ = load_cifar10()
     mock_cifar10.assert_called_once()
 ```
@@ -197,12 +197,12 @@ import time
 def test_training_speed():
     model = get_model("simple_cnn", num_classes=10, image_size=32)
     batch = torch.randn(32, 3, 32, 32)
-    
+
     start = time.time()
     for _ in range(100):
         _ = model(batch)
     elapsed = time.time() - start
-    
+
     # Should complete 100 batches in < 5 seconds
     assert elapsed < 5.0
 ```
@@ -268,7 +268,7 @@ pytest -vv  # Extra verbose
    def test_model_output_shape():
        output = model(x)
        assert output.shape == (2, 10)
-   
+
    # Bad
    def test_model():
        output = model(x)
@@ -280,7 +280,7 @@ pytest -vv  # Extra verbose
    ```python
    # Good
    def test_simple_cnn_forward_pass_with_correct_input_shape()
-   
+
    # Bad
    def test_model()
    ```
@@ -299,7 +299,7 @@ pytest -vv  # Extra verbose
    @pytest.fixture
    def model():
        return SimpleCNN()
-   
+
    # Bad
    def test_something():
        model = SimpleCNN()  # Setup in test
@@ -310,7 +310,7 @@ pytest -vv  # Extra verbose
    # Good - Mock network call
    @patch('requests.get')
    def test_download(mock_get)
-   
+
    # Bad - Actually calls network
    def test_download():
        response = requests.get(url)
@@ -326,10 +326,10 @@ def test_load_cifar10(tmp_path):
         data_dir=str(tmp_path),
         batch_size=32
     )
-    
+
     assert len(train_loader) > 0
     assert len(val_loader) > 0
-    
+
     images, labels = next(iter(train_loader))
     assert images.shape == (32, 3, 32, 32)
     assert labels.shape == (32,)
@@ -352,10 +352,10 @@ def test_simple_cnn_different_image_sizes():
 def test_training_improves_loss(train_loader, model):
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
-    
+
     initial_loss = None
     final_loss = None
-    
+
     for epoch in range(2):
         loss, _ = train_epoch(
             model, train_loader, criterion, optimizer, device
@@ -364,7 +364,7 @@ def test_training_improves_loss(train_loader, model):
             initial_loss = loss
         else:
             final_loss = loss
-    
+
     # Loss should decrease after training
     assert final_loss < initial_loss
 ```

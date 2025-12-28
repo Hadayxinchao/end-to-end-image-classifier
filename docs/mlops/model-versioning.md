@@ -152,24 +152,24 @@ import json
 
 def compare_models(models_dir="models"):
     results = []
-    
+
     for model_file in Path(models_dir).glob("*_best.pth"):
         checkpoint = torch.load(model_file)
-        
+
         results.append({
             'model': model_file.stem,
             'epoch': checkpoint['epoch'],
             'val_acc': checkpoint['val_acc'],
             'config': checkpoint['config']
         })
-    
+
     # Sort by accuracy
     results.sort(key=lambda x: x['val_acc'], reverse=True)
-    
+
     print("Model Comparison:")
     for result in results:
         print(f"{result['model']}: {result['val_acc']:.2%}")
-    
+
     return results
 ```
 

@@ -4,8 +4,9 @@ Hyperparameter sweep using Weights & Biases.
 This script demonstrates how to run a hyperparameter sweep with W&B.
 """
 
+import os
+
 import wandb
-from omegaconf import OmegaConf
 
 # Define sweep configuration
 sweep_config = {
@@ -34,7 +35,7 @@ sweep_config = {
 
 
 def train_with_sweep():
-    """Training function for sweep."""
+    """Execute training with sweep parameters."""
     # Initialize W&B
     wandb.init()
 
@@ -52,16 +53,14 @@ def train_with_sweep():
         hyperparameters.weight_decay={config.weight_decay}
     """
 
-    print(f"Running: {cmd}")
+    print("Running:", cmd)
 
     # Execute training
-    import os
-
     os.system(cmd)
 
 
 def main():
-    """Main function to start sweep."""
+    """Start hyperparameter sweep with W&B."""
     print("🔍 Starting Hyperparameter Sweep with W&B")
     print("=" * 80)
 
@@ -69,11 +68,10 @@ def main():
     sweep_id = wandb.sweep(sweep_config, project="image-classifier")
 
     print(f"\n✅ Sweep created: {sweep_id}")
-    print(f"\nTo run sweep agent:")
+    print("\nTo run sweep agent:")
     print(f"  wandb agent {sweep_id}")
-    print(f"\nOr run multiple agents in parallel:")
-    print(f"  wandb agent {sweep_id} --count 5")
-    print()
+    print("\nOr run multiple agents in parallel:")
+    print(f"  wandb agent {sweep_id} --count 5\n")
 
     # Ask if user wants to start agent now
     response = input("Start sweep agent now? (y/n): ")

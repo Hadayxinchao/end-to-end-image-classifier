@@ -230,27 +230,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-      
+
       - name: Pull data
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           dvc pull
-      
+
       - name: Train model
         run: |
           dvc repro
-      
+
       - name: Push results
         run: |
           dvc push
@@ -315,7 +315,7 @@ stages:
       - data/raw
     outs:
       - data/processed
-  
+
   train:
     cmd: python src/training/train.py
     deps:

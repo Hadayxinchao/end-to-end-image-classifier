@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: mlops-image-classifier
+data:
+  config.yaml: |
+    model:
+      name: "simple_cnn"
+      checkpoint_path: "/app/models"
+
+    data:
+      batch_size: 32
+      num_workers: 4
+
+    inference:
+      device: "cpu"
+      confidence_threshold: 0.5
+
+  # Environment variables
+  PYTHONUNBUFFERED: '1'
+  LOG_LEVEL: INFO

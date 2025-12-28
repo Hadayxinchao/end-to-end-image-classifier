@@ -1,0 +1,181 @@
+name: Code Quality & Security
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run security scans weekly
+  - cron: 0 0 * * 0
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: pip
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-ci.txt
+
+    - name: Run pre-commit hooks
+      run: |
+        pip install pre-commit
+        pre-commit run --all-files || true
+
+    - name: Lint with flake8
+      run: |
+        flake8 src/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 src/ tests/ --count --exit-zero --max-complexity=10 --max-line-length=100 --statistics
+
+    - name: Format check with Black
+      run: |
+        black --check src/ tests/
+
+    - name: Import order check with isort
+      run: |
+        isort --check-only src/ tests/
+
+    - name: Type check with mypy
+      run: |
+        mypy src/ --ignore-missing-imports || true
+
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: pip
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit[toml] safety pip-audit
+        pip install -r requirements.txt
+
+    - name: Security scan with Bandit
+      run: |
+        mkdir -p reports
+        bandit -r src/ -c pyproject.toml -f json -o reports/bandit-report.json
+        bandit -r src/ -c pyproject.toml
+
+    - name: Dependency vulnerability scan with Safety
+      run: |
+        safety check --json --output reports/safety-report.json || true
+        safety check || true
+
+    - name: Dependency audit with pip-audit
+      run: |
+        pip-audit --desc || true
+
+    - name: Upload security reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: security-reports-${{ github.run_number }}
+        path: reports/
+        retention-days: 30
+
+    - name: CodeQL Analysis
+      uses: github/codeql-action/init@v3
+      with:
+        languages: python
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: pip
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -e .
+
+    - name: Run tests with coverage
+      run: |
+        pytest tests/ --cov=src --cov-report=xml --cov-report=html --cov-report=term
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ github.run_number }}
+        path: |
+          htmlcov/
+          coverage.xml
+        retention-days: 30
+
+  docker-security:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner on Dockerfile
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: config
+        scan-ref: Dockerfile
+        format: sarif
+        output: trivy-results.sarif
+
+    - name: Upload Trivy results to GitHub Security
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: trivy-results.sarif
+
+    - name: Build Docker image
+      run: |
+        docker build -t image-classifier:test .
+
+    - name: Scan Docker image with Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: image-classifier:test
+        format: sarif
+        output: trivy-image-results.sarif
+
+    - name: Upload Docker image scan results
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: trivy-image-results.sarif

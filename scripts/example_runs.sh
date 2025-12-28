@@ -43,11 +43,11 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "Training Simple CNN..."
     python src/training/train.py model=simple_cnn tracking=mlflow hyperparameters=fast
-    
+
     echo ""
     echo "Training ResNet..."
     python src/training/train.py model=resnet tracking=mlflow hyperparameters=fast
-    
+
     echo ""
     echo "✅ Both models trained! Compare in MLflow UI"
     echo ""
@@ -68,7 +68,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
             tracking=mlflow \
             hyperparameters=fast
     done
-    
+
     echo ""
     echo "✅ Hyperparameter tuning complete! Compare in MLflow UI"
     echo ""

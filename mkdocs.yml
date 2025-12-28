@@ -17,109 +17,109 @@ theme:
   language: en
   palette:
     # Light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/brightness-7
+      name: Switch to dark mode
     # Dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
-  
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/brightness-4
+      name: Switch to light mode
+
   features:
-    - navigation.instant
-    - navigation.tracking
-    - navigation.tabs
-    - navigation.sections
-    - navigation.expand
-    - navigation.top
-    - search.suggest
-    - search.highlight
-    - content.code.annotate
-    - content.code.copy
-  
+  - navigation.instant
+  - navigation.tracking
+  - navigation.tabs
+  - navigation.sections
+  - navigation.expand
+  - navigation.top
+  - search.suggest
+  - search.highlight
+  - content.code.annotate
+  - content.code.copy
+
   icon:
     repo: fontawesome/brands/github
 
 # Extensions
 markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - tables
-  - footnotes
-  - attr_list
-  - md_in_html
-  - toc:
-      permalink: true
+- admonition
+- pymdownx.details
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
+- pymdownx.highlight:
+    anchor_linenums: true
+- pymdownx.inlinehilite
+- pymdownx.snippets
+- pymdownx.tabbed:
+    alternate_style: true
+- pymdownx.tasklist:
+    custom_checkbox: true
+- tables
+- footnotes
+- attr_list
+- md_in_html
+- toc:
+    permalink: true
 
 # Plugins
 plugins:
-  - search
-  - mkdocstrings:
-      handlers:
-        python:
-          options:
-            docstring_style: google
-            show_source: true
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        options:
+          docstring_style: google
+          show_source: true
 
 # Navigation
 nav:
-  - Home: index.md
-  - Getting Started:
-    - Installation: getting-started/installation.md
-    - Quick Start: getting-started/quickstart.md
-    - Configuration: getting-started/configuration.md
-  - User Guide:
-    - Training Models: guide/training.md
-    - Making Predictions: guide/inference.md
-    - Data Management: guide/data.md
-    - Experiments: guide/experiments.md
-  - MLOps:
-    - CI/CD Pipeline: mlops/cicd.md
-    - Data Versioning: mlops/dvc.md
-    - Experiment Tracking: mlops/experiment-tracking.md
-    - Model Versioning: mlops/model-versioning.md
-    - Docker: mlops/docker.md
-  - API Reference:
-    - Data Module: api/data.md
-    - Models Module: api/models.md
-    - Training Module: api/training.md
-    - Utils Module: api/utils.md
-  - Development:
-    - Contributing: development/contributing.md
-    - Testing: development/testing.md
-    - Code Style: development/code-style.md
-  - About:
-    - Project Overview: about/overview.md
-    - License: about/license.md
+- Home: index.md
+- Getting Started:
+  - Installation: getting-started/installation.md
+  - Quick Start: getting-started/quickstart.md
+  - Configuration: getting-started/configuration.md
+- User Guide:
+  - Training Models: guide/training.md
+  - Making Predictions: guide/inference.md
+  - Data Management: guide/data.md
+  - Experiments: guide/experiments.md
+- MLOps:
+  - CI/CD Pipeline: mlops/cicd.md
+  - Data Versioning: mlops/dvc.md
+  - Experiment Tracking: mlops/experiment-tracking.md
+  - Model Versioning: mlops/model-versioning.md
+  - Docker: mlops/docker.md
+- API Reference:
+  - Data Module: api/data.md
+  - Models Module: api/models.md
+  - Training Module: api/training.md
+  - Utils Module: api/utils.md
+- Development:
+  - Contributing: development/contributing.md
+  - Testing: development/testing.md
+  - Code Style: development/code-style.md
+- About:
+  - Project Overview: about/overview.md
+  - License: about/license.md
 
 # Extra
 extra:
   social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/Hadayxinchao
-    - icon: fontawesome/brands/linkedin
-      link: https://linkedin.com/in/hadayxinchao
-  
+  - icon: fontawesome/brands/github
+    link: https://github.com/Hadayxinchao
+  - icon: fontawesome/brands/linkedin
+    link: https://linkedin.com/in/hadayxinchao
+
   version:
     provider: mike

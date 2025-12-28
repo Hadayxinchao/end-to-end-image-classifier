@@ -1,0 +1,68 @@
+# Multi-stage optimized Dockerfile for production
+# Reduces image size and improves security
+
+# Stage 1: Builder
+FROM python:3.10-slim as builder
+
+# Set working directory
+WORKDIR /build
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install dependencies
+COPY requirements-ci.txt .
+RUN pip install --user --no-cache-dir -r requirements-ci.txt
+
+# Copy package files
+COPY setup.py README.md ./
+COPY src/ ./src/
+
+# Install the package
+RUN pip install --user --no-deps -e .
+
+# Stage 2: Runtime
+FROM python:3.10-slim
+
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && \
+    mkdir -p /app /app/data /app/models /app/reports && \
+    chown -R appuser:appuser /app
+
+# Set working directory
+WORKDIR /app
+
+# Copy Python packages from builder
+COPY --from=builder --chown=appuser:appuser /root/.local /home/appuser/.local
+
+# Copy application files
+COPY --chown=appuser:appuser configs/ ./configs/
+COPY --chown=appuser:appuser src/ ./src/
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH=/home/appuser/.local/bin:$PATH \
+    PYTHONPATH=/app
+
+# Switch to non-root user
+USER appuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:8000/health')" || exit 1
+
+# Expose port
+EXPOSE 8000
+
+# Default command - run FastAPI server
+CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Labels for metadata
+LABEL maintainer="your-email@example.com" \
+      version="1.0" \
+      description="MLOps Image Classifier" \
+      org.opencontainers.image.source="https://github.com/yourusername/end-to-end-image-classifier"

@@ -100,15 +100,14 @@ def promote_model(model_name, version, stage):
             name=model_name, version=version, stage=stage, archive_existing_versions=True
         )
 
-        print(
-            f"✅ Model {model_name} version {version} promoted to {stage}"
-        )
+        print(f"✅ Model {model_name} version {version} promoted to {stage}")
 
     except Exception as e:
         print(f"Error promoting model: {e}")
 
 
 def main():
+    """Parse arguments and execute commands for MLflow model management."""
     parser = argparse.ArgumentParser(description="Manage MLflow models")
     parser.add_argument("--list", action="store_true", help="List all registered models")
     parser.add_argument("--model-name", type=str, help="Model name")

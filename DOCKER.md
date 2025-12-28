@@ -91,7 +91,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     command: python src/training/train.py
-    
+
   inference:
     build: .
     image: image-classifier:latest

@@ -128,7 +128,7 @@ graph TD
     G --> I
     H --> I
     I --> J["Docker Image<br/>(Deployment)"]
-    
+
     style A fill:#4A90E2,stroke:#2E5C8A,color:#fff
     style E fill:#7B68EE,stroke:#5A4B96,color:#fff
     style I fill:#50C878,stroke:#3A8B56,color:#fff

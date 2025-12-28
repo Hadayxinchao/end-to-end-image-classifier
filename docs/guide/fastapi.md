@@ -157,12 +157,12 @@ curl http://localhost:8000/health
 async function classifyImage(file) {
   const formData = new FormData();
   formData.append('file', file);
-  
+
   const response = await fetch('http://localhost:8000/predict', {
     method: 'POST',
     body: formData
   });
-  
+
   const result = await response.json();
   console.log('Prediction:', result.predicted_class);
   console.log('Confidence:', result.confidence);
@@ -274,7 +274,7 @@ export PORT=8000
 server {
     listen 80;
     server_name your-domain.com;
-    
+
     location / {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host $host;

@@ -320,10 +320,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Build image
         run: docker build -t image-classifier .
-      
+
       - name: Run tests in container
         run: docker run --rm image-classifier pytest
 ```
@@ -392,7 +392,7 @@ docker build --progress=plain .
    RUN apt-get update && \
        apt-get install -y curl && \
        rm -rf /var/lib/apt/lists/*
-   
+
    # ✗ Bad - more layers
    RUN apt-get update
    RUN apt-get install -y curl
@@ -413,7 +413,7 @@ docker build --progress=plain .
    ```dockerfile
    # ✓ Good - exec form (PID 1)
    ENTRYPOINT ["python", "src/training/train.py"]
-   
+
    # ✗ Bad - shell form
    ENTRYPOINT python src/training/train.py
    ```

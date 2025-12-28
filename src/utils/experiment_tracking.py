@@ -1,11 +1,9 @@
 """Experiment tracking with MLflow and Weights & Biases."""
 
-import os
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
 import matplotlib.pyplot as plt
-import torch
 import torch.nn as nn
 from omegaconf import DictConfig, OmegaConf
 
@@ -40,9 +38,11 @@ class ExperimentTracker:
 
             self.mlflow = mlflow
 
-            if not hasattr(self.cfg, "tracking") or not hasattr(
-                self.cfg.tracking, "enabled"
-            ) or not self.cfg.tracking.enabled:
+            if (
+                not hasattr(self.cfg, "tracking")
+                or not hasattr(self.cfg.tracking, "enabled")
+                or not self.cfg.tracking.enabled
+            ):
                 print("MLflow tracking is disabled in config")
                 return
 
@@ -51,16 +51,14 @@ class ExperimentTracker:
             self.mlflow.set_tracking_uri(tracking_uri)
 
             # Set experiment
-            experiment_name = self.cfg.tracking.get(
-                "experiment_name", self.cfg.experiment_name
-            )
+            experiment_name = self.cfg.tracking.get("experiment_name", self.cfg.experiment_name)
             self.mlflow.set_experiment(experiment_name)
 
             # Start run
             run_name = self.cfg.tracking.get("run_name", self.cfg.run_name)
             self.mlflow_run = self.mlflow.start_run(run_name=run_name)
 
-            print(f"✓ MLflow tracking initialized")
+            print("✓ MLflow tracking initialized")
             print(f"  Tracking URI: {tracking_uri}")
             print(f"  Experiment: {experiment_name}")
             print(f"  Run ID: {self.mlflow_run.info.run_id}")
@@ -68,13 +66,13 @@ class ExperimentTracker:
             # Enable autologging if configured
             if self.cfg.tracking.get("autolog", False):
                 self.mlflow.pytorch.autolog(**self.cfg.tracking.get("autolog_params", {}))
-                print(f"  ✓ MLflow autologging enabled")
+                print("  ✓ MLflow autologging enabled")
 
         except ImportError:
             print("Warning: MLflow not installed. Install with: pip install mlflow")
-            self.tracking_backend = self.tracking_backend.replace("mlflow", "").replace(
-                "both", "wandb"
-            ).strip()
+            self.tracking_backend = (
+                self.tracking_backend.replace("mlflow", "").replace("both", "wandb").strip()
+            )
         except Exception as e:
             print(f"Warning: Could not initialize MLflow: {e}")
 
@@ -85,9 +83,11 @@ class ExperimentTracker:
 
             self.wandb = wandb
 
-            if not hasattr(self.cfg, "tracking") or not hasattr(
-                self.cfg.tracking, "enabled"
-            ) or not self.cfg.tracking.enabled:
+            if (
+                not hasattr(self.cfg, "tracking")
+                or not hasattr(self.cfg.tracking, "enabled")
+                or not self.cfg.tracking.enabled
+            ):
                 print("W&B tracking is disabled in config")
                 return
 
@@ -110,20 +110,20 @@ class ExperimentTracker:
                 id=self.cfg.tracking.get("resume_id", None),
             )
 
-            print(f"✓ W&B tracking initialized")
+            print("✓ W&B tracking initialized")
             print(f"  Project: {self.cfg.tracking.get('project', 'image-classifier')}")
             print(f"  Run: {self.wandb_run.name}")
             print(f"  URL: {self.wandb_run.get_url()}")
 
             # Watch model if configured
             if self.cfg.tracking.get("watch_model", False):
-                print(f"  Note: Model watching will be enabled after model creation")
+                print("  Note: Model watching will be enabled after model creation")
 
         except ImportError:
             print("Warning: W&B not installed. Install with: pip install wandb")
-            self.tracking_backend = self.tracking_backend.replace("wandb", "").replace(
-                "both", "mlflow"
-            ).strip()
+            self.tracking_backend = (
+                self.tracking_backend.replace("wandb", "").replace("both", "mlflow").strip()
+            )
         except Exception as e:
             print(f"Warning: Could not initialize W&B: {e}")
 
@@ -195,9 +195,11 @@ class ExperimentTracker:
                 self.mlflow.pytorch.log_model(
                     model,
                     artifact_path=artifact_path,
-                    registered_model_name=self.cfg.tracking.get("registered_model_name", None)
-                    if self.cfg.tracking.get("register_model", False)
-                    else None,
+                    registered_model_name=(
+                        self.cfg.tracking.get("registered_model_name", None)
+                        if self.cfg.tracking.get("register_model", False)
+                        else None
+                    ),
                 )
             except Exception as e:
                 print(f"Warning: Could not log model to MLflow: {e}")
@@ -267,7 +269,7 @@ class ExperimentTracker:
 
     def _flatten_dict(self, d: Dict[str, Any], parent_key: str = "", sep: str = ".") -> Dict:
         """Flatten nested dictionary."""
-        items = []
+        items: list = []
         for k, v in d.items():
             new_key = f"{parent_key}{sep}{k}" if parent_key else k
             if isinstance(v, dict):

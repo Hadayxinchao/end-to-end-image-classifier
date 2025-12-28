@@ -1,7 +1,7 @@
 """Tests for experiment tracking."""
 
 import pytest
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import OmegaConf
 
 from utils.experiment_tracking import ExperimentTracker
 

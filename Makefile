@@ -39,16 +39,16 @@ clean:  ## Clean up generated files
 	rm -rf outputs/ multirun/
 
 train:  ## Train model with default config
-	python src/training/train.py
+	python -m src.training.train
 
 train-fast:  ## Quick training for testing
-	python src/training/train.py hyperparameters=fast hyperparameters.num_epochs=2
+	python -m src.training.train hyperparameters=fast hyperparameters.num_epochs=2
 
 train-resnet:  ## Train ResNet model
-	python src/training/train.py model=resnet
+	python -m src.training.train model=resnet
 
 train-mnist:  ## Train on MNIST dataset
-	python src/training/train.py data=mnist
+	python -m src.training.train data=mnist
 
 docker-build:  ## Build Docker image
 	docker build -t image-classifier:latest .
@@ -116,3 +116,148 @@ ci:  ## Simulate CI pipeline
 	@echo "\n4. Quick training..."
 	@make train-fast
 	@echo "\n✅ CI Pipeline completed!"
+
+# ============================================================================
+# Quality & Security Automation
+# ============================================================================
+
+setup-precommit:  ## Install and setup pre-commit hooks
+	pip install pre-commit
+	pre-commit install
+	@echo "✅ Pre-commit hooks installed!"
+
+precommit-run:  ## Run pre-commit on all files
+	pre-commit run --all-files
+
+precommit-update:  ## Update pre-commit hooks
+	pre-commit autoupdate
+
+security-scan:  ## Run security scans (Bandit)
+	./scripts/security_scan.sh
+
+vulnerability-check:  ## Check dependency vulnerabilities
+	./scripts/check_vulnerabilities.sh
+
+security-all:  ## Run all security checks
+	@echo "Running security scans..."
+	@make security-scan
+	@echo "\nChecking vulnerabilities..."
+	@make vulnerability-check
+	@echo "\n✅ Security checks complete!"
+
+# ============================================================================
+# W&B Integration
+# ============================================================================
+
+wandb-setup:  ## Setup Weights & Biases
+	./scripts/setup_wandb.sh
+
+wandb-login:  ## Login to W&B
+	wandb login
+
+train-wandb:  ## Train with W&B tracking
+	python -m src.training.train tracking=wandb
+
+train-wandb-offline:  ## Train with W&B offline mode
+	WANDB_MODE=offline python -m src.training.train tracking=wandb
+
+train-both:  ## Train with both MLflow and W&B
+	python -m src.training.train tracking=wandb tracking.backend=both
+
+# ============================================================================
+# Docker Optimization
+# ============================================================================
+
+docker-build-optimized:  ## Build optimized Docker image
+	docker build -f Dockerfile.optimized -t image-classifier:optimized .
+
+docker-size-compare:  ## Compare Docker image sizes
+	@echo "Building normal image..."
+	@docker build -t image-classifier:normal -f Dockerfile . -q
+	@echo "Building optimized image..."
+	@docker build -t image-classifier:optimized -f Dockerfile.optimized . -q
+	@echo "\nImage sizes:"
+	@docker images | grep image-classifier
+
+docker-compose-up:  ## Start all services with docker-compose
+	docker-compose up -d
+
+docker-compose-down:  ## Stop all services
+	docker-compose down
+
+docker-compose-logs:  ## View docker-compose logs
+	docker-compose logs -f
+
+docker-security-scan:  ## Scan Docker image with Trivy (if installed)
+	@if command -v trivy >/dev/null 2>&1; then \
+		trivy image image-classifier:optimized; \
+	else \
+		echo "Trivy not installed. Install from: https://github.com/aquasecurity/trivy"; \
+	fi
+
+# ============================================================================
+# Kubernetes Deployment
+# ============================================================================
+
+k8s-deploy:  ## Deploy to Kubernetes
+	./scripts/deploy_k8s.sh
+
+k8s-status:  ## Check K8s deployment status
+	kubectl get all -n mlops-image-classifier
+
+k8s-logs:  ## View K8s logs
+	kubectl logs -f deployment/image-classifier -n mlops-image-classifier
+
+k8s-shell:  ## Open shell in K8s pod
+	kubectl exec -it deployment/image-classifier -n mlops-image-classifier -- /bin/bash
+
+k8s-port-forward:  ## Port forward to K8s service
+	kubectl port-forward service/image-classifier-service 8000:80 -n mlops-image-classifier
+
+k8s-scale:  ## Scale K8s deployment (use REPLICAS=N)
+	kubectl scale deployment image-classifier --replicas=$(REPLICAS) -n mlops-image-classifier
+
+k8s-delete:  ## Delete K8s deployment
+	kubectl delete -f k8s/
+
+k8s-hpa-status:  ## Check HPA status
+	kubectl get hpa -n mlops-image-classifier
+
+# ============================================================================
+# Complete Automation Workflow
+# ============================================================================
+
+setup-all:  ## Complete setup (pre-commit, W&B, dependencies)
+	@echo "🚀 Setting up complete automation stack..."
+	@echo "\n1. Installing dependencies..."
+	@make install
+	@echo "\n2. Setting up pre-commit hooks..."
+	@make setup-precommit
+	@echo "\n3. Setting up W&B..."
+	@make wandb-setup
+	@echo "\n✅ Setup complete!"
+
+quality-check:  ## Run all quality checks
+	@echo "🔍 Running quality checks..."
+	@make lint
+	@make test-cov
+	@echo "\n✅ Quality checks complete!"
+
+deploy-local:  ## Full local deployment with monitoring
+	@echo "🐳 Deploying local stack..."
+	@make docker-build-optimized
+	@make docker-compose-up
+	@echo "\n✅ Local stack deployed!"
+	@echo "\nServices:"
+	@echo "  - App: http://localhost:8000"
+	@echo "  - MLflow: http://localhost:5000"
+	@echo "  - Prometheus: http://localhost:9090"
+	@echo "  - Grafana: http://localhost:3000"
+
+deploy-k8s:  ## Full K8s deployment
+	@echo "☸️  Deploying to Kubernetes..."
+	@make docker-build-optimized
+	@echo "\nPush image to registry first:"
+	@echo "  docker tag image-classifier:optimized your-registry/image-classifier:latest"
+	@echo "  docker push your-registry/image-classifier:latest"
+	@echo "\nThen run: make k8s-deploy"

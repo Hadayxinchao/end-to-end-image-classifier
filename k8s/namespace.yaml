@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mlops-image-classifier
+  labels:
+    name: mlops-image-classifier
+    environment: production

@@ -103,14 +103,14 @@ from pathlib import Path
 def plot_experiment(run_dir):
     history_file = run_dir / "reports" / "training_history.png"
     confusion_file = run_dir / "reports" / "confusion_matrix.png"
-    
+
     fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-    
+
     # Load and display images
     from PIL import Image
     axes[0].imshow(Image.open(history_file))
     axes[1].imshow(Image.open(confusion_file))
-    
+
     plt.show()
 ```
 
@@ -122,18 +122,18 @@ from pathlib import Path
 
 def compare_runs(experiment_dir):
     results = []
-    
+
     for run_dir in experiment_dir.iterdir():
         config = run_dir / ".hydra" / "config.yaml"
         metrics_file = run_dir / "reports" / "metrics.json"
-        
+
         if config.exists() and metrics_file.exists():
             results.append({
                 'run': run_dir.name,
                 'config': config,
                 'metrics': metrics_file
             })
-    
+
     return pd.DataFrame(results)
 ```
 
