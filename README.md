@@ -1,6 +1,6 @@
 # End-to-End Image Classifier with MLOps
 
-A complete MLOps pipeline for image classification demonstrating best practices in ML engineering.
+A complete MLOps pipeline for image classification demonstrating best practices in ML engineering
 
 ## 🎯 Project Overview
 
