@@ -7,7 +7,6 @@
 ✅ Security scanning (Bandit)
 ✅ Vulnerability checking (Safety, pip-audit)
 ✅ Docker optimization (multi-stage)
-✅ Kubernetes deployment (production-ready)
 ✅ W&B tracking (weights, biases, gradients)
 ✅ CI/CD pipeline (GitHub Actions)
 
@@ -86,14 +85,6 @@ make docker-compose-up       # Start full stack
 make docker-compose-down     # Stop stack
 ```
 
-### Kubernetes:
-```bash
-make k8s-deploy          # Deploy to K8s
-make k8s-status          # Check status
-make k8s-logs            # View logs
-make k8s-port-forward    # Port forward to localhost
-```
-
 ### Xem tất cả:
 ```bash
 make help                # List all commands
@@ -151,7 +142,6 @@ make deploy-local
 
 ### Khi deploy:
 1. Local: `make deploy-local`
-2. K8s: Build image → Push → `make k8s-deploy`
 
 ---
 
@@ -211,8 +201,7 @@ Dự án này đã được trang bị đầy đủ các công cụ tự động
 2. 🔒 **Security scanning** - Quét lỗ hổng bảo mật với Bandit
 3. 🛡️ **Dependency checking** - Kiểm tra lỗ hổng trong dependencies
 4. 🐳 **Docker optimization** - Container tối ưu hóa cho production
-5. ☸️ **Kubernetes deployment** - Triển khai lên K8s cluster
-6. 📊 **W&B Tracking** - Theo dõi weights, biases và experiments
+5. 📊 **W&B Tracking** - Theo dõi weights, biases và experiments
 
 ## 🚀 Cài Đặt Nhanh
 
@@ -271,20 +260,6 @@ docker run -p 8000:8000 image-classifier:latest
 
 # Hoặc dùng docker-compose (với MLflow, Prometheus, Grafana)
 docker-compose up -d
-```
-
-### 5. Deploy lên Kubernetes
-
-```bash
-# Cập nhật image registry trong k8s/deployment.yaml
-# Sau đó deploy
-./scripts/deploy_k8s.sh
-
-# Xem status
-kubectl get all -n mlops-image-classifier
-
-# Port-forward để test
-kubectl port-forward service/image-classifier-service 8000:80 -n mlops-image-classifier
 ```
 
 ## 📊 W&B Tracking - Theo Dõi Weights & Biases
@@ -373,45 +348,7 @@ docker build -t image-classifier:optimized -f Dockerfile.optimized .
 docker images | grep image-classifier
 ```
 
-## ☸️ Kubernetes Deployment
-
-### Components
-
-- **Deployment**: 3 replicas với rolling updates
-- **Service**: LoadBalancer với session affinity
-- **HPA**: Auto-scaling từ 2-10 pods
-- **ConfigMap**: Configuration management
-- **Secrets**: API keys và credentials
-- **PVC**: Persistent storage cho models
-- **Ingress**: HTTPS với Let's Encrypt
-
-### Monitoring
-
-Stack bao gồm:
-- Prometheus (metrics collection)
-- Grafana (visualization)
-- Custom metrics từ application
-
-### Commands
-
-```bash
-# Apply all manifests
-kubectl apply -f k8s/
-
-# Scale deployment
-kubectl scale deployment image-classifier --replicas=5 -n mlops-image-classifier
-
-# Check HPA
-kubectl get hpa -n mlops-image-classifier
-
-# View logs
-kubectl logs -f deployment/image-classifier -n mlops-image-classifier
-
-# Delete deployment
-kubectl delete -f k8s/
-```
-
-## 📝 Configuration Files
+## 🔄 CI/CD Pipeline
 
 ### Pre-commit Configuration
 - `.pre-commit-config.yaml` - Pre-commit hooks config
@@ -427,7 +364,6 @@ kubectl delete -f k8s/
 ### Docker/K8s Configuration
 - `Dockerfile.optimized` - Optimized production Dockerfile
 - `docker-compose.yml` - Local development stack
-- `k8s/*.yaml` - Kubernetes manifests
 
 ## 🛠️ Development Workflow
 
@@ -479,13 +415,10 @@ wandb agent <sweep-id>
 
 ```bash
 # Build Docker
-docker build -f Dockerfile.optimized -t your-registry/image-classifier:v1.0 .
+docker build -f Dockerfile.optimized -t image-classifier:v1.0 .
 
-# Push to registry
-docker push your-registry/image-classifier:v1.0
-
-# Deploy to K8s
-./scripts/deploy_k8s.sh v1.0
+# Run locally
+make deploy-local
 ```
 
 ## 📊 Monitoring & Observability
@@ -504,16 +437,14 @@ docker push your-registry/image-classifier:v1.0
 
 ### Infrastructure Metrics
 
-- Prometheus scrapes metrics từ pods
+- Prometheus scrapes metrics từ containers
 - Grafana dashboards cho visualization
-- HPA metrics cho auto-scaling
 
 ## 🔐 Security Best Practices
 
 ✅ **Đã implement:**
 - Non-root user trong Docker
 - Multi-stage builds
-- Secrets management với K8s secrets
 - Security scanning trong CI/CD
 - Dependency vulnerability checks
 - Code security với Bandit
@@ -524,7 +455,7 @@ docker push your-registry/image-classifier:v1.0
 - [Pre-commit hooks documentation](https://pre-commit.com/)
 - [Bandit documentation](https://bandit.readthedocs.io/)
 - [W&B documentation](https://docs.wandb.ai/)
-- [Kubernetes documentation](https://kubernetes.io/docs/)
+- [Docker documentation](https://docs.docker.com/)
 
 ## 🆘 Troubleshooting
 
@@ -568,19 +499,6 @@ docker image prune -a
 docker logs <container-id>
 ```
 
-### K8s Issues
-
-```bash
-# Check pod status
-kubectl describe pod <pod-name> -n mlops-image-classifier
-
-# View events
-kubectl get events -n mlops-image-classifier --sort-by='.lastTimestamp'
-
-# Debug pod
-kubectl exec -it <pod-name> -n mlops-image-classifier -- /bin/bash
-```
-
 ## 🎉 Kết Luận
 
 Dự án của bạn giờ đã có:
@@ -588,9 +506,9 @@ Dự án của bạn giờ đã có:
 - ✅ Security scanning tự động
 - ✅ Dependency vulnerability monitoring
 - ✅ Docker images tối ưu
-- ✅ K8s deployment với auto-scaling
 - ✅ Complete W&B tracking cho weights/biases
 - ✅ CI/CD pipeline đầy đủ
+- ✅ Local deployment stack với monitoring
 
 Happy coding! 🚀
 # 🚀 Automation Features - Quick Reference

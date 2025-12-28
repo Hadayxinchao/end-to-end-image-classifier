@@ -196,34 +196,6 @@ docker-security-scan:  ## Scan Docker image with Trivy (if installed)
 	fi
 
 # ============================================================================
-# Kubernetes Deployment
-# ============================================================================
-
-k8s-deploy:  ## Deploy to Kubernetes
-	./scripts/deploy_k8s.sh
-
-k8s-status:  ## Check K8s deployment status
-	kubectl get all -n mlops-image-classifier
-
-k8s-logs:  ## View K8s logs
-	kubectl logs -f deployment/image-classifier -n mlops-image-classifier
-
-k8s-shell:  ## Open shell in K8s pod
-	kubectl exec -it deployment/image-classifier -n mlops-image-classifier -- /bin/bash
-
-k8s-port-forward:  ## Port forward to K8s service
-	kubectl port-forward service/image-classifier-service 8000:80 -n mlops-image-classifier
-
-k8s-scale:  ## Scale K8s deployment (use REPLICAS=N)
-	kubectl scale deployment image-classifier --replicas=$(REPLICAS) -n mlops-image-classifier
-
-k8s-delete:  ## Delete K8s deployment
-	kubectl delete -f k8s/
-
-k8s-hpa-status:  ## Check HPA status
-	kubectl get hpa -n mlops-image-classifier
-
-# ============================================================================
 # Complete Automation Workflow
 # ============================================================================
 
@@ -253,11 +225,3 @@ deploy-local:  ## Full local deployment with monitoring
 	@echo "  - MLflow: http://localhost:5000"
 	@echo "  - Prometheus: http://localhost:9090"
 	@echo "  - Grafana: http://localhost:3000"
-
-deploy-k8s:  ## Full K8s deployment
-	@echo "☸️  Deploying to Kubernetes..."
-	@make docker-build-optimized
-	@echo "\nPush image to registry first:"
-	@echo "  docker tag image-classifier:optimized your-registry/image-classifier:latest"
-	@echo "  docker push your-registry/image-classifier:latest"
-	@echo "\nThen run: make k8s-deploy"

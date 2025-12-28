@@ -13,7 +13,6 @@ This project implements a full MLOps workflow for image classification, covering
 - ✅ **Security scanning with Bandit**
 - ✅ **Dependency vulnerability checking**
 - ✅ **Docker optimization (multi-stage)**
-- ✅ **Kubernetes deployment (production-ready)**
 - ✅ **Weights & Biases tracking**
 - ✅ Unit testing with pytest
 - ✅ CI/CD with GitHub Actions
